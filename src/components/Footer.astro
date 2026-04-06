@@ -1,0 +1,74 @@
+---
+const base = import.meta.env.BASE_URL;
+---
+
+<footer style="background-color: var(--color-footer);" class="text-white">
+  <div style="height: 3px; background: linear-gradient(to right, #5EAABA, #BF2750);"></div>
+  <div class="max-w-5xl mx-auto px-4 py-10">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+      <!-- Logo + description -->
+      <div class="flex flex-col gap-4">
+        <img
+          src={`${base}logo/LOGO-B.png`}
+          alt="Fusibles & Dentelles"
+          class="h-14 w-auto"
+        />
+        <p class="text-sm text-gray-400 leading-relaxed">
+          Compagnie de spectacle vivant basée à Mulhouse.
+        </p>
+      </div>
+
+      <!-- Contact -->
+      <div>
+        <h3 class="text-sm font-semibold uppercase tracking-wider text-gray-300 mb-3">Contact</h3>
+        <ul class="space-y-2 text-sm text-gray-400">
+          <li>
+            <a href="mailto:bonjour@fusiblesetdentelles.fr" class="hover:text-white transition-colors">
+              bonjour@fusiblesetdentelles.fr
+            </a>
+          </li>
+          <li>
+            <a href="tel:+33638795035" class="hover:text-white transition-colors">
+              06 38 79 50 35
+            </a>
+          </li>
+          <li class="pt-1">100 Avenue de Colmar<br />68100 Mulhouse</li>
+        </ul>
+      </div>
+
+      <!-- Réseaux + légal -->
+      <div>
+        <h3 class="text-sm font-semibold uppercase tracking-wider text-gray-300 mb-3">Suivez-nous</h3>
+        <div class="flex gap-4 mb-4">
+          <a
+            href="https://fr-fr.facebook.com/fusiblesetdentelles/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-gray-400 hover:text-white transition-colors text-sm"
+          >
+            Facebook
+          </a>
+          <a
+            href="https://instagram.com/fusiblesetdentelles/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-gray-400 hover:text-white transition-colors text-sm"
+          >
+            Instagram
+          </a>
+        </div>
+        <p class="text-xs text-gray-500 leading-relaxed">
+          Cie Fusibles et Dentelles<br />
+          SIRET: 87958685700010<br />
+          Licence: PLATESV-D-2025-002964
+        </p>
+      </div>
+
+    </div>
+
+    <div class="border-t border-gray-700 mt-8 pt-6 text-center text-xs text-gray-500">
+      © {new Date().getFullYear()} Cie Fusibles & Dentelles — Tous droits réservés
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,40 @@
+@import 'tailwindcss';
+
+:root {
+  /* Couleurs Fusibles & Dentelles */
+  --color-primary: #BF2750;       /* Bordeaux/crimson - titres, CTA */
+  --color-secondary: #5EAABA;     /* Teal - accents, sous-titres */
+  --color-bg-warm: #f4f1ed;       /* Sable chaud - fond mail */
+  --color-bg-cool: #B8E0E8;       /* Bleu clair - fond dossier */
+  --color-bg-white: #ffffff;
+  --color-text: #333333;
+  --color-text-light: #666666;
+  --color-text-muted: #999999;
+  --color-footer: #333333;
+  --color-accent-green: #9CC5A1;  /* Vert menthe - coeurs/motifs */
+
+  /* Typographie */
+  --font-heading: 'Palatino Linotype', Palatino, Georgia, 'Times New Roman', serif;
+  --font-body: 'Merriweather Sans', system-ui, -apple-system, sans-serif;
+}
+
+@theme {
+  --color-primary: #BF2750;
+  --color-secondary: #5EAABA;
+  --color-bg-warm: #f4f1ed;
+  --color-bg-cool: #B8E0E8;
+  --color-accent-green: #9CC5A1;
+  --color-footer: #333333;
+  --font-family-heading: 'Palatino Linotype', Palatino, Georgia, 'Times New Roman', serif;
+  --font-family-body: 'Merriweather Sans', system-ui, -apple-system, sans-serif;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--color-text);
+  background-color: var(--color-bg-white);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+}

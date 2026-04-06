@@ -1,0 +1,58 @@
+---
+interface Props {
+  videoId: string;
+  title: string;
+}
+
+const { videoId, title } = Astro.props;
+const thumbnailUrl = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
+---
+
+<div class="video-embed relative w-full" style="padding-bottom: 56.25%;">
+  <div
+    class="video-facade absolute inset-0 cursor-pointer group"
+    data-video-id={videoId}
+    data-title={title}
+  >
+    <img
+      src={thumbnailUrl}
+      alt={`Miniature vidéo : ${title}`}
+      class="w-full h-full object-cover rounded-lg"
+      loading="lazy"
+    />
+    <!-- Overlay + bouton play -->
+    <div class="absolute inset-0 bg-black/30 group-hover:bg-black/20 transition-colors rounded-lg flex items-center justify-center">
+      <div class="w-16 h-16 rounded-full bg-[var(--color-primary)] flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+        <!-- Triangle play -->
+        <svg viewBox="0 0 24 24" fill="white" class="w-7 h-7 ml-1">
+          <path d="M8 5v14l11-7z"/>
+        </svg>
+      </div>
+    </div>
+    <!-- Titre -->
+    <div class="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/70 to-transparent rounded-b-lg">
+      <p class="text-white text-sm font-medium">{title}</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll('.video-facade').forEach((facade) => {
+    facade.addEventListener('click', () => {
+      const el = facade as HTMLElement;
+      const videoId = el.dataset.videoId;
+      const title = el.dataset.title ?? '';
+      const parent = el.parentElement;
+      if (!parent || !videoId) return;
+
+      const iframe = document.createElement('iframe');
+      iframe.src = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1`;
+      iframe.title = title;
+      iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+      iframe.allowFullscreen = true;
+      iframe.className = 'absolute inset-0 w-full h-full rounded-lg';
+
+      el.replaceWith(iframe);
+    });
+  });
+</script>

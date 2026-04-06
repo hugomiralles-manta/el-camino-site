@@ -1,0 +1,163 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import VideoEmbed from '../components/VideoEmbed.astro';
+
+const base = import.meta.env.BASE_URL;
+
+const ficheItems = [
+  { label: 'Durée', value: 'Env. 1h20' },
+  { label: 'Type', value: 'Chanson, théâtre, musique' },
+  { label: 'Public', value: 'Toutes et tous, de 0 à 99 ans' },
+  { label: 'Espace scénique', value: 'Version adaptable petits et grands' },
+  { label: 'Sur le plateau', value: '2 artistes' },
+  { label: 'Régie', value: '1 régisseur lumière' },
+  { label: 'Tarif', value: 'Sur demande' },
+];
+---
+
+<BaseLayout
+  title="El Camino"
+  description="El Camino — Spectacle musico-théâtral. 1h20 de chansons, de show et de kilomètres. Avec Elisabeth von Buxhoeveden et Jean-Marc Miralles."
+>
+  <Header />
+
+  <!-- Hero page -->
+  <section class="py-16 px-4 text-white text-center" style="background-color: var(--color-primary);">
+    <div class="max-w-3xl mx-auto">
+      <p class="text-sm uppercase tracking-widest mb-3 opacity-80">Cie Fusibles & Dentelles</p>
+      <h1 class="text-5xl md:text-6xl font-bold mb-4 italic" style="font-family: var(--font-heading);">
+        El Camino
+      </h1>
+      <p class="text-xl opacity-90">
+        Un spectacle qui ne fait pas dans la dentelle...<br />mais vous emmène à Compostelle !
+      </p>
+    </div>
+  </section>
+
+  <!-- Synopsis -->
+  <section class="py-16 px-4" style="background-color: var(--color-bg-warm);">
+    <div class="max-w-3xl mx-auto">
+      <h2 class="text-2xl md:text-3xl mb-8" style="font-family: var(--font-heading); color: var(--color-primary);">
+        Synopsis
+      </h2>
+      <div class="space-y-5 text-base leading-relaxed" style="color: var(--color-text);">
+        <p>Dans ce spectacle, vous partagez un bout de chemin avec Gabrielle et Juan.</p>
+        <p>
+          Gabrielle est une quinquagénaire phobique et insomniaque qui s'est mis en tête de faire Compostelle pour dépasser ses peurs et retrouver le sommeil.
+        </p>
+        <p>
+          Juan est un musicien libre et insouciant qui va croiser la route de Gabrielle et la mettre face à ses limites bien malgré lui.
+        </p>
+        <p>
+          El Camino raconte le chemin de toutes celles et ceux qui se retrouvent à un carrefour de leur vie et décide de faire marcher leurs pieds plutôt que leur tête.
+        </p>
+        <p>
+          C'est un show musico-théâtral plein d'humour et de tendresse sur le temps qui passe, les contradictions humaines et le dépassement de soi.
+        </p>
+        <p class="italic" style="color: var(--color-text-light);">
+          1h20 de chansons, de show et de kilomètres.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Vidéos -->
+  <section class="py-16 px-4 bg-white">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-2xl md:text-3xl mb-10" style="font-family: var(--font-heading); color: var(--color-primary);">
+        Vidéos
+      </h2>
+      <div class="grid md:grid-cols-2 gap-8">
+        <div>
+          <h3 class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--color-text-light);">
+            Teaser
+          </h3>
+          <VideoEmbed videoId="OsuFC8ETyh4" title="Teaser El Camino" />
+        </div>
+        <div>
+          <h3 class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--color-text-light);">
+            Medley
+          </h3>
+          <VideoEmbed videoId="YiCRAO-KXXA" title="Medley El Camino" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Fiche technique -->
+  <section class="py-16 px-4" style="background-color: var(--color-bg-warm);">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-2xl md:text-3xl mb-8" style="font-family: var(--font-heading); color: var(--color-primary);">
+        Fiche technique
+      </h2>
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        {ficheItems.map(({ label, value }) => (
+          <div class="p-5 rounded-xl bg-white shadow-sm">
+            <p class="text-xs uppercase tracking-widest mb-1" style="color: var(--color-secondary);">
+              {label}
+            </p>
+            <p class="font-semibold text-sm leading-snug" style="color: var(--color-text);">{value}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Crédits -->
+  <section class="py-16 px-4 bg-white">
+    <div class="max-w-3xl mx-auto">
+      <h2 class="text-2xl md:text-3xl mb-8" style="font-family: var(--font-heading); color: var(--color-primary);">
+        Crédits
+      </h2>
+      <ul class="space-y-3 text-base" style="color: var(--color-text);">
+        <li>
+          <span class="font-semibold" style="color: var(--color-text-light);">Idée originale, texte et interprétation</span><br />
+          Elisabeth von Buxhoeveden
+        </li>
+        <li>
+          <span class="font-semibold" style="color: var(--color-text-light);">Composition, musique et interprétation</span><br />
+          Jean-Marc Miralles
+        </li>
+        <li>
+          <span class="font-semibold" style="color: var(--color-text-light);">Paroles et dramaturgie</span><br />
+          Karine Darcos
+        </li>
+        <li>
+          <span class="font-semibold" style="color: var(--color-text-light);">Collaboration artistique</span><br />
+          Maud Landau
+        </li>
+        <li>
+          <span class="font-semibold" style="color: var(--color-text-light);">Création lumière</span><br />
+          Jean-Louis Racoillet
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- CTA dossier -->
+  <section class="py-12 px-4 text-center" style="background-color: var(--color-bg-warm);">
+    <div class="max-w-lg mx-auto">
+      <h2 class="text-xl mb-4" style="font-family: var(--font-heading); color: var(--color-text);">
+        Dossier de présentation complet
+      </h2>
+      <p class="text-sm mb-6" style="color: var(--color-text-light);">
+        Pour les programmateurs et diffuseurs
+      </p>
+      <a
+        href={`${base}documents/EL-CAMINO-Dossier.pdf`}
+        download
+        class="inline-flex items-center gap-2 px-8 py-3 rounded-full font-semibold transition-all hover:scale-105"
+        style="background-color: var(--color-primary); color: white;"
+      >
+        <svg viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
+          <path d="M19 9h-4V3H9v6H5l7 7 7-7zm-8 2V5h2v6h1.17L12 13.17 9.83 11H11zm-6 7h14v2H5v-2z"/>
+        </svg>
+        Télécharger le dossier complet
+      </a>
+    </div>
+  </section>
+
+  <Footer />
+</BaseLayout>

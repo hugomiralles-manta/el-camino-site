@@ -1,0 +1,219 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import VideoEmbed from '../components/VideoEmbed.astro';
+
+const base = import.meta.env.BASE_URL;
+
+const artistes = [
+  {
+    name: 'Elisabeth von Buxhoeveden',
+    tagline: 'La marcheuse, c\'est elle.',
+    bio: [
+      'Elle est aussi chanteuse, comédienne, metteure en scène, rêveuse, blonde et insomniaque.',
+      'Le théâtre lui colle à la peau, elle se brosse les dents en chantant et n\'arrive pas à devenir végétarienne pour de vrai.',
+      'Pour elle, une journée sans rire, ça n\'existe pas.',
+    ],
+  },
+  {
+    name: 'Jean-Marc Miralles',
+    tagline: 'Le musicien, c\'est lui.',
+    bio: [
+      'Il est aussi compositeur, chanteur, comédien, ronchon, pied-noir et lève-tôt.',
+      'Le blues lui colle à la peau, il épluche les carottes en battant la mesure et n\'arrive pas à faire la grasse mat pour de vrai.',
+      'Pour lui, une journée sans corde à gratter n\'est pas une bonne journée.',
+    ],
+  },
+];
+
+const equipeElargie = [
+  {
+    name: 'Karine Darcos',
+    role: 'Paroles & dramaturgie',
+    description: 'La plume. Traductrice, correctrice, idéaliste. Les mots lui collent à la peau.',
+  },
+  {
+    name: 'Maud Landau',
+    role: 'Collaboration artistique',
+    description: 'Comédienne, metteure en scène, fondatrice de la compagnie La Libellule.',
+  },
+];
+---
+
+<BaseLayout
+  title="La compagnie"
+  description="Fusibles & Dentelles — La compagnie d'Elisabeth von Buxhoeveden et Jean-Marc Miralles. Spectacles musico-théâtraux, humour et tendresse."
+>
+  <Header />
+
+  <!-- Hero -->
+  <section class="py-16 px-4 text-white text-center" style="background-color: var(--color-secondary);">
+    <div class="max-w-3xl mx-auto">
+      <h1 class="text-5xl md:text-6xl font-bold mb-4" style="font-family: var(--font-heading);">
+        Fusibles & Dentelles
+      </h1>
+      <p class="text-lg opacity-90 italic">
+        La compagnie qui sait changer son fusible d'épaule !
+      </p>
+    </div>
+  </section>
+
+  <!-- Présentation -->
+  <section class="py-16 px-4" style="background-color: var(--color-bg-warm);">
+    <div class="max-w-3xl mx-auto">
+      <h2 class="text-2xl md:text-3xl mb-6" style="font-family: var(--font-heading); color: var(--color-primary);">
+        La compagnie
+      </h2>
+      <div class="space-y-5 text-base leading-relaxed" style="color: var(--color-text);">
+        <p>
+          Fusibles & Dentelles, c'est avant tout le duo formé par la comédienne et chanteuse Elisabeth von Buxhoeveden et par le musicien et comédien Jean-Marc Miralles.
+        </p>
+        <p>
+          Les deux complices ont actuellement deux spectacles à leur actif : <em>La face cachée de la lune de miel</em> et <em>El Camino</em>.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Philosophie -->
+  <section class="py-16 px-4 bg-white">
+    <div class="max-w-3xl mx-auto">
+      <h2 class="text-2xl md:text-3xl mb-8" style="font-family: var(--font-heading); color: var(--color-primary);">
+        Créer du lien
+      </h2>
+      <div class="grid md:grid-cols-2 gap-6">
+        {[
+          'Entre théâtre et musique',
+          'Entre artistes et spectateurs',
+          'Entre la vie et la scène',
+          'Entre humour et tragédie',
+        ].map((item) => (
+          <div
+            class="p-5 rounded-xl border-l-4"
+            style="background-color: var(--color-bg-warm); border-color: var(--color-secondary);"
+          >
+            <p class="text-base leading-relaxed" style="color: var(--color-text);">{item}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Biographies -->
+  <section class="py-16 px-4" style="background-color: var(--color-bg-warm);">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-2xl md:text-3xl mb-10" style="font-family: var(--font-heading); color: var(--color-primary);">
+        Les artistes
+      </h2>
+      <div class="grid md:grid-cols-2 gap-8">
+        {artistes.map(({ name, tagline, bio }) => (
+          <div class="p-6 rounded-xl bg-white shadow-sm">
+            <h3 class="text-xl mb-1" style="font-family: var(--font-heading); color: var(--color-text);">
+              {name}
+            </h3>
+            <p class="font-semibold italic mb-4 text-sm" style="color: var(--color-primary);">
+              {tagline}
+            </p>
+            <div class="space-y-2">
+              {bio.map((line) => (
+                <p class="text-sm leading-relaxed" style="color: var(--color-text-light);">{line}</p>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Équipe élargie -->
+  <section class="py-12 px-4 bg-white">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-xl mb-8" style="font-family: var(--font-heading); color: var(--color-text);">
+        L'équipe élargie
+      </h2>
+      <div class="grid md:grid-cols-2 gap-6">
+        {equipeElargie.map(({ name, role, description }) => (
+          <div class="p-5 rounded-xl" style="background-color: var(--color-bg-warm);">
+            <h3 class="font-semibold mb-0.5" style="color: var(--color-text);">{name}</h3>
+            <p class="text-xs uppercase tracking-wide mb-2" style="color: var(--color-secondary);">{role}</p>
+            <p class="text-sm leading-relaxed" style="color: var(--color-text-light);">{description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Les spectacles -->
+  <section class="py-16 px-4" style="background-color: var(--color-bg-warm);">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-2xl md:text-3xl mb-10" style="font-family: var(--font-heading); color: var(--color-primary);">
+        Les spectacles
+      </h2>
+      <div class="grid md:grid-cols-2 gap-8">
+
+        <!-- El Camino -->
+        <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+          <div class="p-6">
+            <h3 class="text-xl mb-2" style="font-family: var(--font-heading); color: var(--color-text);">
+              El Camino
+            </h3>
+            <p class="text-sm leading-relaxed mb-4" style="color: var(--color-text-light);">
+              Un show musico-théâtral plein d'humour et de tendresse sur le temps qui passe et le dépassement de soi. 1h20 de chansons, de show et de kilomètres.
+            </p>
+            <a
+              href={`${base}spectacle`}
+              class="text-sm font-semibold transition-all hover:underline"
+              style="color: var(--color-primary);"
+            >
+              Découvrir le spectacle →
+            </a>
+          </div>
+        </div>
+
+        <!-- La face cachée -->
+        <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+          <div class="p-6">
+            <h3 class="text-xl mb-2" style="font-family: var(--font-heading); color: var(--color-text);">
+              La face cachée de la lune de miel
+            </h3>
+            <p class="text-sm leading-relaxed mb-4" style="color: var(--color-text-light);">
+              Le premier spectacle de la compagnie — une comédie musicale sur le couple, le temps qui passe, et les illusions perdues.
+            </p>
+            <a
+              href="https://www.youtube.com/watch?v=7Em9EGD7j6I"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-sm font-semibold transition-all hover:underline"
+              style="color: var(--color-secondary);"
+            >
+              Voir le teaser →
+            </a>
+          </div>
+          <div class="px-6 pb-6">
+            <VideoEmbed videoId="7Em9EGD7j6I" title="Teaser La face cachée de la lune de miel" />
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Logo & Identité -->
+  <section class="py-12 px-4 text-center bg-white">
+    <div class="max-w-sm mx-auto">
+      <img
+        src={`${base}logo/LOGO-COULEUR.png`}
+        alt="Logo Fusibles & Dentelles"
+        class="mx-auto h-32 w-auto mb-6"
+        loading="lazy"
+      />
+      <p class="text-sm" style="color: var(--color-text-muted);">
+        SIRET : 87958685700010<br />
+        Licence : PLATESV-D-2025-002964
+      </p>
+    </div>
+  </section>
+
+  <Footer />
+</BaseLayout>

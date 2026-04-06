@@ -1,0 +1,84 @@
+---
+const base = import.meta.env.BASE_URL;
+
+const navLinks = [
+  { href: `${base}`, label: 'Accueil' },
+  { href: `${base}spectacle`, label: 'Le spectacle' },
+  { href: `${base}compagnie`, label: 'La compagnie' },
+  { href: `${base}calendrier`, label: 'Calendrier' },
+  { href: `${base}contact`, label: 'Contact' },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<header class="bg-white shadow-sm sticky top-0 z-50">
+  <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
+    <!-- Logo -->
+    <a href={`${base}`} class="flex items-center gap-3 hover:opacity-80 transition-opacity">
+      <img
+        src={`${base}logo/LOGO-COULEUR.png`}
+        alt="Fusibles & Dentelles"
+        class="h-12 w-auto"
+      />
+    </a>
+
+    <!-- Navigation desktop -->
+    <nav class="hidden md:flex items-center gap-6">
+      {navLinks.map(({ href, label }) => (
+        <a
+          href={href}
+          class={`text-sm font-medium transition-colors hover:text-[var(--color-primary)] ${
+            currentPath === href || currentPath === href + '/'
+              ? 'text-[var(--color-primary)] border-b-2 border-[var(--color-primary)] pb-0.5'
+              : 'text-[var(--color-text)]'
+          }`}
+        >
+          {label}
+        </a>
+      ))}
+    </nav>
+
+    <!-- Burger menu mobile -->
+    <button
+      id="burger-btn"
+      class="md:hidden flex flex-col gap-1.5 p-2 rounded hover:bg-gray-100 transition-colors"
+      aria-label="Menu"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+    >
+      <span class="w-6 h-0.5 bg-[var(--color-text)] block transition-all" id="bar1"></span>
+      <span class="w-6 h-0.5 bg-[var(--color-text)] block transition-all" id="bar2"></span>
+      <span class="w-6 h-0.5 bg-[var(--color-text)] block transition-all" id="bar3"></span>
+    </button>
+  </div>
+
+  <!-- Nav mobile -->
+  <div id="mobile-menu" class="hidden md:hidden border-t border-gray-100">
+    <nav class="flex flex-col px-4 py-3 gap-2">
+      {navLinks.map(({ href, label }) => (
+        <a
+          href={href}
+          class={`py-2 px-3 rounded text-sm font-medium transition-colors hover:bg-gray-50 hover:text-[var(--color-primary)] ${
+            currentPath === href || currentPath === href + '/'
+              ? 'text-[var(--color-primary)] bg-gray-50'
+              : 'text-[var(--color-text)]'
+          }`}
+        >
+          {label}
+        </a>
+      ))}
+    </nav>
+  </div>
+</header>
+
+<script>
+  const btn = document.getElementById('burger-btn');
+  const menu = document.getElementById('mobile-menu');
+
+  btn?.addEventListener('click', () => {
+    const isOpen = menu?.classList.contains('hidden') === false;
+    menu?.classList.toggle('hidden');
+    btn.setAttribute('aria-expanded', String(!isOpen));
+  });
+</script>

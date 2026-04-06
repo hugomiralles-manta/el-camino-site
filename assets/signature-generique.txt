@@ -1,0 +1,24 @@
+<table style="background: none; border-width: 0px; border: 0px; margin: 0; padding: 0;" border="0" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td style="border-top: 0; border-bottom: 0; border-left: 0; border-right: solid 1px #5EAABA; padding: 0 7px 0 0; vertical-align: top;" valign="top"><img id="preview-image-url" src="https://www.fusiblesetdentelles.fr/logo-signature-fusiblesetdentelles.png" alt="Logo Fusibles et Dentelles" /></td>
+<td style="padding: 0 0 0 12px; vertical-align: top;">
+<p>&nbsp;</p>
+<table style="background: none; border-width: 0px; border: 0px; margin: 0; padding: 0;" border="0" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td style="color: #5eaaba; font-size: 14px; font-family: Palatino, Georgia, times, serif;"><strong>Cie Fusibles &amp; Dentelles</strong></td>
+</tr>
+<tr>
+<td style="color: #5eaaba; font-size: 14px; font-family: Palatino, Georgia, times, serif;">t&eacute;l: +33 (0)6 38 79 50 35</td>
+</tr>
+<tr>
+<td style="color: #333333; font-size: 14px; font-family: Palatino, Georgia, times, serif;"><a style="color: #bf2750; text-decoration: none; font-weight: normal; font-size: 14px;" href="https://www.fusiblesetdentelles.fr">www.fusiblesetdentelles.fr</a> <br /><a style="color: #bf2750; text-decoration: none; font-weight: normal; font-size: 14px;" href="mailto:communication@fusiblesetdentelles.fr">communication@fusiblesetdentelles.fr</a></td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+

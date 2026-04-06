@@ -1,0 +1,159 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import VideoEmbed from '../components/VideoEmbed.astro';
+
+const base = import.meta.env.BASE_URL;
+---
+
+<BaseLayout title="Accueil" description="El Camino — Spectacle musico-théâtral de la Cie Fusibles & Dentelles. Rires, émotion et kilomètres.">
+  <Header />
+
+  <!-- Hero -->
+  <section
+    class="relative min-h-[90vh] flex items-center justify-center text-white"
+    style={`background-image: url('${base}images/PaysageFD.jpeg'); background-size: cover; background-position: center;`}
+  >
+    <div class="absolute inset-0 bg-black/50"></div>
+    <div class="relative z-10 text-center px-4 max-w-3xl mx-auto">
+      <img
+        src={`${base}logo/LOGO-B.png`}
+        alt="Fusibles & Dentelles"
+        class="h-20 w-auto mx-auto mb-6 opacity-90"
+      />
+      <h1
+        class="text-5xl md:text-7xl font-bold mb-4 italic tracking-wide"
+        style="font-family: var(--font-heading); text-shadow: 2px 2px 8px rgba(0,0,0,0.5);"
+      >
+        El Camino
+      </h1>
+      <p
+        class="text-xl md:text-2xl mb-2 font-light tracking-widest uppercase"
+        style="color: var(--color-bg-cool);"
+      >
+        Spectacle musico-théâtral
+      </p>
+      <p
+        class="text-sm mb-8 uppercase tracking-widest"
+        style="color: var(--color-secondary);"
+      >
+        Cie Fusibles & Dentelles
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a
+          href="#teaser"
+          class="inline-flex items-center gap-3 px-8 py-4 rounded text-white font-semibold text-lg transition-all hover:scale-105 hover:shadow-xl"
+          style="background-color: var(--color-primary);"
+        >
+          <svg viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+            <path d="M8 5v14l11-7z"/>
+          </svg>
+          Voir le teaser
+        </a>
+        <a
+          href={`${base}contact`}
+          class="inline-flex items-center gap-3 px-8 py-4 rounded text-white font-semibold text-lg transition-all hover:scale-105 hover:shadow-xl border-2 border-white"
+          style="background: transparent;"
+        >
+          Programmer le spectacle
+        </a>
+      </div>
+    </div>
+    <!-- Scroll indicator -->
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce opacity-70">
+      <svg viewBox="0 0 24 24" fill="white" class="w-8 h-8">
+        <path d="M7 10l5 5 5-5z"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- Teaser vidéo -->
+  <section id="teaser" class="py-16 px-4" style="background-color: var(--color-bg-warm);">
+    <div style="height: 3px; background: linear-gradient(to right, var(--color-secondary), var(--color-primary)); max-width: 200px; margin: 0 auto 2rem;"></div>
+    <div class="max-w-3xl mx-auto text-center">
+      <p class="text-xl md:text-2xl mb-8 italic" style="font-family: var(--font-heading); color: var(--color-primary);">
+        Entre ciel et chemin, une histoire qui commence là où les mots s'arrêtent...
+      </p>
+      <VideoEmbed videoId="OsuFC8ETyh4" title="El Camino — Teaser" />
+    </div>
+  </section>
+
+  <!-- Aperçu Le spectacle -->
+  <section class="py-16 px-4" style="background-color: var(--color-bg-white);">
+    <div class="max-w-4xl mx-auto">
+      <div class="grid md:grid-cols-2 gap-12 items-center">
+        <div>
+          <p class="text-sm font-semibold uppercase tracking-widest mb-2" style="color: var(--color-secondary);">
+            Le spectacle
+          </p>
+          <h2 class="text-3xl md:text-4xl mb-5" style="font-family: var(--font-heading); color: var(--color-primary);">
+            Un spectacle qui ne fait pas dans la dentelle...
+          </h2>
+          <p class="text-base leading-relaxed mb-4" style="color: var(--color-text-light);">
+            Gabrielle, quinquagénaire phobique et insomniaque, part sur le Camino. Elle y croise Juan, musicien itinérant. Une rencontre improbable entre deux êtres que tout oppose.
+          </p>
+          <p class="text-base leading-relaxed mb-6" style="color: var(--color-text-light);">
+            1h20 de chansons, de show et de kilomètres, sur le temps qui passe, les contradictions humaines et le dépassement de soi.
+          </p>
+          <a
+            href={`${base}spectacle`}
+            class="inline-block px-6 py-3 rounded font-semibold transition-all hover:opacity-90"
+            style="background-color: var(--color-primary); color: white;"
+          >
+            Découvrir le spectacle
+          </a>
+        </div>
+        <div class="rounded-xl overflow-hidden shadow-lg">
+          <img
+            src={`${base}images/PaysageFD150.jpeg`}
+            alt="El Camino - Fusibles & Dentelles"
+            class="w-full h-64 object-cover"
+            loading="lazy"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Aperçu La compagnie -->
+  <section class="py-16 px-4 bg-white">
+    <div class="max-w-4xl mx-auto text-center">
+      <p class="text-sm font-semibold uppercase tracking-widest mb-2" style="color: var(--color-secondary);">
+        La compagnie
+      </p>
+      <h2 class="text-3xl md:text-4xl mb-5" style="font-family: var(--font-heading); color: var(--color-primary);">
+        Fusibles & Dentelles
+      </h2>
+      <p class="text-lg leading-relaxed max-w-2xl mx-auto mb-8" style="color: var(--color-text-light);">
+        Un duo artistique qui allie humour, tendresse et virtuosité. Elisabeth von Buxhoeveden et Jean-Marc Miralles créent des spectacles où la musique live et le théâtre se mêlent pour raconter des histoires universelles.
+      </p>
+      <a
+        href={`${base}compagnie`}
+        class="inline-block px-6 py-3 rounded border-2 font-semibold transition-all hover:bg-[var(--color-primary)] hover:text-white hover:border-[var(--color-primary)]"
+        style="border-color: var(--color-primary); color: var(--color-primary);"
+      >
+        La compagnie
+      </a>
+    </div>
+  </section>
+
+  <!-- CTA Contact -->
+  <section class="py-12 px-4 text-white text-center" style="background-color: var(--color-secondary);">
+    <div class="max-w-2xl mx-auto">
+      <h2 class="text-2xl md:text-3xl mb-3" style="font-family: var(--font-heading);">
+        Vous souhaitez programmer El Camino ?
+      </h2>
+      <p class="mb-6 opacity-90">Contactez-nous pour discuter de votre projet.</p>
+      <a
+        href={`${base}contact`}
+        class="inline-block px-8 py-3 rounded-full bg-white font-semibold transition-all hover:scale-105"
+        style="color: var(--color-secondary);"
+      >
+        Nous contacter
+      </a>
+    </div>
+  </section>
+
+  <Footer />
+</BaseLayout>
