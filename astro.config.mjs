@@ -6,6 +6,7 @@ import tailwindcss from '@tailwindcss/vite';
 export default defineConfig({
   site: 'https://hugomiralles-manta.github.io',
   base: '/el-camino-site',
+  trailingSlash: 'always',
   vite: {
     plugins: [tailwindcss()]
   }
