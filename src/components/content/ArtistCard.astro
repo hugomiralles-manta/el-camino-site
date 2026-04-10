@@ -1,0 +1,119 @@
+---
+interface Props {
+  name: string;
+  role: string;
+  tagline?: string;
+  bio: string;
+  photo?: string;
+}
+const { name, role, tagline, bio, photo } = Astro.props;
+
+// Generate initials for fallback avatar
+const initials = name
+  .split(' ')
+  .map((w) => w[0])
+  .join('')
+  .slice(0, 2)
+  .toUpperCase();
+---
+
+<article class="artist-card">
+  <div class="artist-card__photo-wrapper">
+    {photo ? (
+      <img
+        src={photo}
+        alt={name}
+        class="artist-card__photo"
+        loading="lazy"
+      />
+    ) : (
+      <div class="artist-card__avatar" aria-hidden="true">
+        <span class="artist-card__initials">{initials}</span>
+      </div>
+    )}
+  </div>
+  <div class="artist-card__body">
+    <p class="section-label">{role}</p>
+    <h3 class="artist-card__name">{name}</h3>
+    {tagline && <p class="artist-card__tagline">{tagline}</p>}
+    <p class="artist-card__bio">{bio}</p>
+  </div>
+</article>
+
+<style>
+  .artist-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+  }
+
+  .artist-card__photo-wrapper {
+    width: 100%;
+    max-width: 280px;
+  }
+
+  .artist-card__photo {
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-md);
+    display: block;
+  }
+
+  .artist-card__avatar {
+    width: 100%;
+    max-width: 280px;
+    aspect-ratio: 3 / 4;
+    background-color: var(--color-secondary);
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .artist-card__initials {
+    font-family: var(--font-family);
+    font-size: var(--text-2xl);
+    color: #fff;
+    font-weight: var(--weight-bold);
+  }
+
+  .artist-card__name {
+    font-family: var(--font-family);
+    font-style: italic;
+    font-size: var(--text-xl);
+    color: var(--color-primary);
+    font-weight: var(--weight-normal);
+    line-height: var(--leading-tight);
+    margin: var(--space-2) 0 var(--space-3);
+  }
+
+  .artist-card__tagline {
+    font-family: var(--font-family);
+    font-style: italic;
+    font-size: var(--text-md);
+    color: var(--color-text-light);
+    margin: 0 0 var(--space-4);
+  }
+
+  .artist-card__bio {
+    font-family: var(--font-family);
+    font-size: var(--text-base);
+    color: var(--color-text);
+    line-height: var(--leading-relaxed);
+    margin: 0;
+  }
+
+  @media (min-width: 640px) {
+    .artist-card {
+      flex-direction: row;
+      align-items: flex-start;
+      gap: var(--space-8);
+    }
+    .artist-card__photo-wrapper {
+      flex-shrink: 0;
+    }
+    .artist-card__body {
+      flex: 1;
+    }
+  }
+</style>
