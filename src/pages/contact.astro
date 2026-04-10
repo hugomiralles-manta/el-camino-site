@@ -2,105 +2,150 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import PageSection from '../components/layout/PageSection.astro';
+import Card from '../components/ui/Card.astro';
+import Button from '../components/ui/Button.astro';
+import IconText from '../components/ui/IconText.astro';
+import { company } from '../content/company';
 
 const base = import.meta.env.BASE_URL;
+const fullAddress = `${company.address.street}, ${company.address.zipcode} ${company.address.city}`;
 ---
 
 <BaseLayout title="Contact" description="Contactez la Cie Fusibles & Dentelles pour programmer le spectacle El Camino.">
   <Header />
 
-  <section class="py-16 px-4" style="background-color: var(--color-bg-warm);">
-    <div class="max-w-4xl mx-auto">
-      <p class="text-sm font-semibold uppercase tracking-widest mb-2 text-center" style="color: var(--color-secondary);">
-        Contact
-      </p>
-      <h1 class="text-4xl md:text-5xl text-center mb-4" style="font-family: var(--font-heading); color: var(--color-primary);">
-        Parlons de votre projet
-      </h1>
-      <p class="text-center text-lg mb-12 max-w-2xl mx-auto" style="color: var(--color-text-light);">
-        Vous souhaitez programmer El Camino ? N'hésitez pas à nous contacter.
-      </p>
+  <PageSection label="Contact" title="Parlons de votre projet" background="warm">
+    <p class="contact-intro">
+      Vous souhaitez programmer El Camino ? N'hésitez pas à nous contacter.
+    </p>
 
-      <div class="grid md:grid-cols-2 gap-12">
-        <!-- Coordonnées directes -->
-        <div class="bg-white rounded-xl p-8 shadow-sm">
-          <h2 class="text-xl font-semibold mb-6" style="color: var(--color-primary); font-family: var(--font-heading);">
-            Nous écrire
-          </h2>
-          <ul class="space-y-4">
-            <li>
-              <p class="text-sm uppercase tracking-wider mb-1" style="color: var(--color-text-muted);">Email</p>
-              <a href="mailto:bonjour@fusiblesetdentelles.fr" class="text-base hover:underline" style="color: var(--color-primary);">
-                bonjour@fusiblesetdentelles.fr
-              </a>
-            </li>
-            <li>
-              <p class="text-sm uppercase tracking-wider mb-1" style="color: var(--color-text-muted);">Communication</p>
-              <a href="mailto:communication@fusiblesetdentelles.fr" class="text-base hover:underline" style="color: var(--color-primary);">
-                communication@fusiblesetdentelles.fr
-              </a>
-            </li>
-            <li>
-              <p class="text-sm uppercase tracking-wider mb-1" style="color: var(--color-text-muted);">Téléphone</p>
-              <a href="tel:+33638795035" class="text-base" style="color: var(--color-text);">
-                06 38 79 50 35
-              </a>
-            </li>
-            <li>
-              <p class="text-sm uppercase tracking-wider mb-1" style="color: var(--color-text-muted);">Adresse</p>
-              <p style="color: var(--color-text);">100 Avenue de Colmar<br />68100 Mulhouse</p>
-            </li>
-          </ul>
-        </div>
+    <div class="contact-grid">
+      <!-- Coordonnées directes -->
+      <Card>
+        <h3 class="card-title">Nous écrire</h3>
+        <ul class="contact-list">
+          <li>
+            <IconText icon="✉" label="Email" value={company.emails.primary} />
+            <a href={`mailto:${company.emails.primary}`} class="sr-only">Envoyer un email</a>
+          </li>
+          <li>
+            <IconText icon="✉" label="Communication" value={company.emails.communication} />
+            <a href={`mailto:${company.emails.communication}`} class="sr-only">Envoyer un email communication</a>
+          </li>
+          <li>
+            <IconText icon="☎" label="Téléphone" value={company.phone} />
+          </li>
+          <li>
+            <IconText icon="⌂" label="Adresse" value={fullAddress} />
+          </li>
+        </ul>
+      </Card>
 
-        <!-- Réseaux + dossier -->
-        <div class="space-y-8">
-          <div class="bg-white rounded-xl p-8 shadow-sm">
-            <h2 class="text-xl font-semibold mb-4" style="color: var(--color-primary); font-family: var(--font-heading);">
-              Suivez-nous
-            </h2>
-            <div class="flex gap-4">
-              <a
-                href="https://fr-fr.facebook.com/fusiblesetdentelles/"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="px-5 py-2.5 rounded border transition-all hover:opacity-80"
-                style="border-color: var(--color-secondary); color: var(--color-secondary);"
-              >
-                Facebook
-              </a>
-              <a
-                href="https://instagram.com/fusiblesetdentelles/"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="px-5 py-2.5 rounded border transition-all hover:opacity-80"
-                style="border-color: var(--color-primary); color: var(--color-primary);"
-              >
-                Instagram
-              </a>
-            </div>
+      <div class="contact-column">
+        <!-- Réseaux -->
+        <Card>
+          <h3 class="card-title">Suivez-nous</h3>
+          <div class="social-buttons">
+            <Button href={company.social.facebook} variant="outline" external={true}>
+              Facebook
+            </Button>
+            <Button href={company.social.instagram} variant="outline" external={true}>
+              Instagram
+            </Button>
           </div>
+        </Card>
 
-          <div class="bg-white rounded-xl p-8 shadow-sm">
-            <h2 class="text-xl font-semibold mb-4" style="color: var(--color-primary); font-family: var(--font-heading);">
-              Dossier du spectacle
-            </h2>
-            <p class="text-sm mb-4" style="color: var(--color-text-light);">
-              Retrouvez toutes les informations sur El Camino dans notre dossier complet.
-            </p>
-            <a
-              href={`${base}documents/EL-CAMINO-Dossier.pdf`}
-              target="_blank"
-              class="inline-block px-6 py-3 rounded font-semibold text-white transition-all hover:opacity-90"
-              style="background-color: var(--color-primary);"
-            >
-              Télécharger le dossier (PDF)
-            </a>
-          </div>
-        </div>
+        <!-- Dossier -->
+        <Card>
+          <h3 class="card-title">Dossier du spectacle</h3>
+          <p class="card-text">
+            Retrouvez toutes les informations sur El Camino dans notre dossier complet.
+          </p>
+          <Button href={`${base}documents/EL-CAMINO-Dossier.pdf`} variant="primary" external={true}>
+            Télécharger le dossier (PDF)
+          </Button>
+        </Card>
       </div>
     </div>
-  </section>
+  </PageSection>
 
   <Footer />
 </BaseLayout>
+
+<style>
+  .contact-intro {
+    font-family: var(--font-family);
+    font-size: var(--text-md);
+    color: var(--color-text-light);
+    text-align: center;
+    max-width: 640px;
+    margin: 0 auto var(--space-12);
+    line-height: var(--leading-relaxed);
+  }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-10);
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  @media (min-width: 768px) {
+    .contact-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .contact-column {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+  }
+
+  .card-title {
+    font-family: var(--font-family);
+    font-style: italic;
+    font-weight: var(--weight-normal);
+    color: var(--color-primary);
+    font-size: var(--text-lg);
+    line-height: var(--leading-tight);
+    margin: 0 0 var(--space-6);
+  }
+
+  .contact-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+  }
+
+  .card-text {
+    font-family: var(--font-family);
+    font-size: var(--text-base);
+    color: var(--color-text-light);
+    line-height: var(--leading-relaxed);
+    margin: 0 0 var(--space-5);
+  }
+
+  .social-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+</style>
