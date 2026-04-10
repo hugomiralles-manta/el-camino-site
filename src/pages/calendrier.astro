@@ -2,9 +2,13 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import PageSection from '../components/layout/PageSection.astro';
+import Button from '../components/ui/Button.astro';
 
 const base = import.meta.env.BASE_URL;
 
+// Past dates — static data, could be moved to src/content/ in a future iteration
+// when more dates accumulate. Kept inline for now as it's a small array.
 const datesPassees = [
   { date: '26.04.2024', lieu: 'Vendredis de la Chartreuse', ville: 'Molsheim (67)' },
   { date: '14.02.2024', lieu: "L'Aronde", ville: 'Riedisheim (68)' },
@@ -18,86 +22,57 @@ const datesPassees = [
 >
   <Header />
 
-  <!-- Hero -->
-  <section class="py-14 px-4 text-white text-center" style="background-color: var(--color-primary);">
-    <div class="max-w-2xl mx-auto">
-      <h1 class="text-4xl md:text-5xl font-bold mb-3" style="font-family: var(--font-heading);">
-        Le calendrier survolté
-      </h1>
-      <p class="text-lg opacity-90">de Fusibles & Dentelles</p>
+  <!-- Hero compact -->
+  <section class="page-hero-compact">
+    <div class="page-hero-compact__inner">
+      <h1 class="page-hero-compact__title">Le calendrier survolté</h1>
+      <p class="page-hero-compact__subtitle">de Fusibles & Dentelles</p>
     </div>
   </section>
 
   <!-- Prochaines dates -->
-  <section class="py-16 px-4" style="background-color: var(--color-bg-warm);">
-    <div class="max-w-3xl mx-auto">
-      <h2 class="text-2xl md:text-3xl mb-8" style="font-family: var(--font-heading); color: var(--color-primary);">
-        Prochaines dates
-      </h2>
-
-      <div
-        class="rounded-xl border-2 border-dashed p-10 text-center"
-        style="border-color: var(--color-secondary); background-color: white;"
-      >
-        <p class="font-semibold text-lg mb-2" style="font-family: var(--font-heading); color: var(--color-text);">
-          Dates à venir... Restez connectés !
-        </p>
-        <p class="text-sm mb-6" style="color: var(--color-text-light);">
-          Vous souhaitez programmer El Camino dans votre structure ?
-        </p>
-        <a
-          href={`${base}contact`}
-          class="inline-block px-6 py-3 rounded-full font-semibold text-white transition-all hover:scale-105"
-          style="background-color: var(--color-primary);"
-        >
-          Contactez-nous
-        </a>
-      </div>
+  <PageSection title="Prochaines dates" background="warm">
+    <div class="upcoming-dates">
+      <p class="upcoming-dates__headline">Dates à venir... Restez connectés !</p>
+      <p class="upcoming-dates__subtext">
+        Vous souhaitez programmer El Camino dans votre structure ?
+      </p>
+      <Button href={`${base}contact`} variant="primary">
+        Contactez-nous
+      </Button>
     </div>
-  </section>
+  </PageSection>
 
   <!-- Dates passées -->
-  <section class="py-12 px-4 bg-white">
-    <div class="max-w-3xl mx-auto">
-      <h2 class="text-xl mb-6" style="font-family: var(--font-heading); color: var(--color-text);">
-        Quelques dates passées
-      </h2>
-      <div class="space-y-3">
-        {datesPassees.map(({ date, lieu, ville }) => (
-          <div
-            class="flex items-center justify-between p-4 rounded-lg opacity-70"
-            style="background-color: var(--color-bg-warm);"
-          >
-            <div>
-              <p class="font-semibold text-sm" style="color: var(--color-text);">{lieu}</p>
-              <p class="text-xs" style="color: var(--color-text-muted);">{ville}</p>
-            </div>
-            <p class="text-sm tabular-nums" style="color: var(--color-text-light);">{date}</p>
+  <PageSection title="Quelques dates passées" background="white">
+    <ul class="past-dates">
+      {datesPassees.map(({ date, lieu, ville }) => (
+        <li class="past-dates__item">
+          <div class="past-dates__info">
+            <p class="past-dates__venue">{lieu}</p>
+            <p class="past-dates__city">{ville}</p>
           </div>
-        ))}
-      </div>
-    </div>
-  </section>
+          <p class="past-dates__date">{date}</p>
+        </li>
+      ))}
+    </ul>
+  </PageSection>
 
   <!-- CTA programmateur -->
-  <section class="py-12 px-4 text-center" style="background-color: var(--color-secondary);">
-    <div class="max-w-2xl mx-auto text-white">
-      <p class="font-semibold text-lg mb-2">Vous souhaitez programmer El Camino ?</p>
-      <p class="opacity-90 mb-6 text-sm">
+  <section class="programmer-cta">
+    <div class="programmer-cta__inner">
+      <p class="programmer-cta__headline">Vous souhaitez programmer El Camino ?</p>
+      <p class="programmer-cta__text">
         Contactez-nous pour discuter de votre projet. Dossier de présentation disponible sur demande.
       </p>
-      <div class="flex flex-wrap justify-center gap-4">
-        <a
-          href={`${base}contact`}
-          class="px-6 py-3 rounded-full bg-white font-semibold text-sm transition-all hover:scale-105"
-          style="color: var(--color-secondary);"
-        >
+      <div class="programmer-cta__buttons">
+        <a href={`${base}contact`} class="programmer-cta__btn programmer-cta__btn--solid">
           Nous contacter
         </a>
         <a
           href={`${base}documents/EL-CAMINO-Dossier.pdf`}
           download
-          class="px-6 py-3 rounded-full border-2 border-white text-white font-semibold text-sm transition-all hover:bg-white hover:text-[var(--color-secondary)]"
+          class="programmer-cta__btn programmer-cta__btn--outline"
         >
           Télécharger le dossier
         </a>
@@ -107,3 +82,154 @@ const datesPassees = [
 
   <Footer />
 </BaseLayout>
+
+<style>
+  /* ---- Hero compact ------------------------------------------------------- */
+  .page-hero-compact {
+    background-color: var(--color-primary);
+    color: #ffffff;
+    text-align: center;
+    padding: var(--space-16) var(--space-5);
+  }
+  .page-hero-compact__inner {
+    max-width: 640px;
+    margin: 0 auto;
+  }
+  .page-hero-compact__title {
+    font-family: var(--font-family);
+    font-style: italic;
+    font-weight: var(--weight-normal);
+    font-size: var(--text-2xl);
+    line-height: var(--leading-tight);
+    margin: 0 0 var(--space-3);
+  }
+  .page-hero-compact__subtitle {
+    font-family: var(--font-family);
+    font-size: var(--text-md);
+    opacity: 0.9;
+    margin: 0;
+  }
+
+  /* ---- Upcoming dates block ----------------------------------------------- */
+  .upcoming-dates {
+    background-color: var(--color-bg-white);
+    border: 2px dashed var(--color-secondary);
+    border-radius: var(--radius-lg);
+    padding: var(--space-10);
+    text-align: center;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  .upcoming-dates__headline {
+    font-family: var(--font-family);
+    font-size: var(--text-md);
+    font-weight: var(--weight-bold);
+    color: var(--color-text);
+    margin: 0 0 var(--space-2);
+  }
+  .upcoming-dates__subtext {
+    font-family: var(--font-family);
+    font-size: var(--text-sm);
+    color: var(--color-text-light);
+    margin: 0 0 var(--space-6);
+  }
+
+  /* ---- Past dates list ---------------------------------------------------- */
+  .past-dates {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    max-width: 720px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .past-dates__item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-4);
+    background-color: var(--color-bg-warm);
+    border-radius: var(--radius-md);
+    opacity: 0.7;
+    gap: var(--space-4);
+  }
+  .past-dates__venue {
+    font-family: var(--font-family);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-bold);
+    color: var(--color-text);
+    margin: 0;
+  }
+  .past-dates__city {
+    font-family: var(--font-family);
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    margin: var(--space-1) 0 0;
+  }
+  .past-dates__date {
+    font-family: var(--font-family);
+    font-size: var(--text-sm);
+    color: var(--color-text-light);
+    margin: 0;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ---- Programmer CTA footer band ----------------------------------------- */
+  .programmer-cta {
+    background-color: var(--color-secondary);
+    color: #ffffff;
+    text-align: center;
+    padding: var(--space-12) var(--space-5);
+  }
+  .programmer-cta__inner {
+    max-width: 640px;
+    margin: 0 auto;
+  }
+  .programmer-cta__headline {
+    font-family: var(--font-family);
+    font-size: var(--text-md);
+    font-weight: var(--weight-bold);
+    margin: 0 0 var(--space-2);
+  }
+  .programmer-cta__text {
+    font-family: var(--font-family);
+    font-size: var(--text-sm);
+    opacity: 0.9;
+    margin: 0 0 var(--space-6);
+  }
+  .programmer-cta__buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-4);
+  }
+  .programmer-cta__btn {
+    display: inline-block;
+    font-family: var(--font-family);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-bold);
+    padding: var(--space-3) var(--space-6);
+    border-radius: 9999px;
+    text-decoration: none;
+    transition: background-color 0.2s, color 0.2s;
+  }
+  .programmer-cta__btn--solid {
+    background-color: #ffffff;
+    color: var(--color-secondary);
+  }
+  .programmer-cta__btn--solid:hover {
+    background-color: var(--color-bg-warm);
+  }
+  .programmer-cta__btn--outline {
+    border: 2px solid #ffffff;
+    color: #ffffff;
+    background: transparent;
+  }
+  .programmer-cta__btn--outline:hover {
+    background-color: #ffffff;
+    color: var(--color-secondary);
+  }
+</style>
