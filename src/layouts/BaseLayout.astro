@@ -1,6 +1,8 @@
 ---
 import '../styles/global.css';
 
+const base = import.meta.env.BASE_URL;
+
 interface Props {
   title: string;
   description?: string;
@@ -10,7 +12,7 @@ interface Props {
 const {
   title,
   description = "El Camino — Spectacle musico-théâtral de la Cie Fusibles & Dentelles",
-  image = "/el-camino-site/images/PaysageFD.jpeg"
+  image = `${base}images/PaysageFD.jpeg`
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
@@ -36,13 +38,10 @@ const imageURL = new URL(image.startsWith('/') ? image : `/${image}`, Astro.site
     <meta property="og:image" content={imageURL} />
     <meta property="og:locale" content="fr_FR" />
 
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Merriweather+Sans:wght@300;400;600;700&display=swap"
-      rel="stylesheet"
-    />
+    <!--
+      Font stack: Palatino / Georgia / Times New Roman / serif — all system fonts,
+      no Google Fonts fetch needed. Single source of truth: --font-family in tokens.css.
+    -->
 
     <link rel="icon" type="image/png" href="/el-camino-site/logo/LOGO-COULEUR.png" />
   </head>
