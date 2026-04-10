@@ -1,0 +1,10 @@
+---
+interface Props {
+  as?: 'p' | 'span';
+  size?: 'sm' | 'md';
+}
+const { as: Tag = 'p', size = 'md' } = Astro.props;
+---
+<Tag class={`section-label ${size === 'sm' ? 'section-label--small' : ''}`}>
+  <slot />
+</Tag>

@@ -1,0 +1,31 @@
+---
+interface Props {
+  as?: 'blockquote' | 'div';
+}
+const { as: Tag = 'blockquote' } = Astro.props;
+---
+<Tag class="pullquote">
+  <slot />
+</Tag>
+
+<style>
+  .pullquote {
+    font-family: var(--font-family);
+    font-size: var(--text-xl);
+    color: var(--color-primary);
+    font-style: italic;
+    text-align: center;
+    line-height: var(--leading-relaxed);
+    margin: var(--space-8) auto;
+    max-width: var(--width-content);
+    padding: 0 var(--space-6);
+  }
+  .pullquote::before {
+    content: '\00AB\00A0';  /* « + non-breaking space */
+    font-style: normal;
+  }
+  .pullquote::after {
+    content: '\00A0\00BB';  /* non-breaking space + » */
+    font-style: normal;
+  }
+</style>

@@ -1,0 +1,14 @@
+---
+interface Props {
+  height?: '3px' | '5px';
+}
+const { height = '3px' } = Astro.props;
+---
+<div class="gradient-bar" style={`height: ${height}`}></div>
+
+<style>
+  .gradient-bar {
+    width: 100%;
+    background: var(--gradient-accent);
+  }
+</style>
