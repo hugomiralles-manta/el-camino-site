@@ -1,0 +1,48 @@
+/*
+ * ============================================================================
+ * EL CAMINO — COMPONENT UTILITY CLASSES
+ * ============================================================================
+ * Reusable CSS classes for recurring patterns.
+ * Use these when a full Astro component is not warranted.
+ * All values reference tokens from tokens.css — no hardcoded values.
+ * ============================================================================
+ */
+
+/* Editorial chapeau with left border accent (from mail v8-warm) */
+.editorial-quote {
+  border-left: var(--border-quote);
+  padding-left: var(--space-4);
+  font-family: var(--font-family);
+  font-style: italic;
+  font-size: var(--text-md);
+  line-height: var(--leading-relaxed);
+  color: var(--color-text);
+  margin: 0;
+}
+
+/* Uppercase small label (from mail v8-warm) */
+.section-label {
+  font-family: var(--font-family);
+  font-size: var(--text-xs);
+  color: var(--color-secondary);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wider);
+  font-weight: var(--weight-bold);
+  margin: 0 0 var(--space-4) 0;
+}
+
+.section-label--small {
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-wide);
+  margin-bottom: var(--space-2);
+}
+
+/* Serif italic heading variant (El Camino title style) */
+.heading-editorial {
+  font-family: var(--font-family);
+  font-style: italic;
+  color: var(--color-primary);
+  font-weight: var(--weight-normal);
+  line-height: var(--leading-tight);
+  margin: 0;
+}
