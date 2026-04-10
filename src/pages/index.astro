@@ -3,153 +3,107 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import VideoEmbed from '../components/VideoEmbed.astro';
+import PageHero from '../components/layout/PageHero.astro';
+import PageSection from '../components/layout/PageSection.astro';
+import Card from '../components/ui/Card.astro';
+import Button from '../components/ui/Button.astro';
+import EditorialQuote from '../components/ui/EditorialQuote.astro';
+import { show } from '../content/show';
 
 const base = import.meta.env.BASE_URL;
 ---
 
-<BaseLayout title="Accueil" description="El Camino — Spectacle musico-théâtral de la Cie Fusibles & Dentelles. Rires, émotion et kilomètres.">
+<BaseLayout
+  title="Accueil"
+  description={`${show.title} — ${show.subtitle} de la Cie Fusibles & Dentelles. Rires, émotion et kilomètres.`}
+>
   <Header />
 
-  <!-- Hero -->
-  <section
-    class="relative min-h-[90vh] flex items-center justify-center text-white"
-    style={`background-image: url('${base}images/PaysageFD.jpeg'); background-size: cover; background-position: center;`}
+  <!-- Cinematic hero — decision 1C (single PageHero with variants) + 3B (2 CTAs in hero) -->
+  <PageHero
+    label={show.label}
+    title={show.title}
+    subtitle="Cie Fusibles & Dentelles"
+    tagline={show.tagline}
+    banner={`${base}images/PaysageFD.jpeg`}
+    bannerAlt={`${show.title} — les artistes sur le chemin`}
+    variant="cinematic"
+    imageMode="fullbleed"
+    heroSize="full"
   >
-    <div class="absolute inset-0 bg-black/50"></div>
-    <div class="relative z-10 text-center px-4 max-w-3xl mx-auto">
-      <img
-        src={`${base}logo/LOGO-B.png`}
-        alt="Fusibles & Dentelles"
-        class="h-20 w-auto mx-auto mb-6 opacity-90"
-      />
-      <h1
-        class="text-5xl md:text-7xl font-bold mb-4 italic tracking-wide"
-        style="font-family: var(--font-heading); text-shadow: 2px 2px 8px rgba(0,0,0,0.5);"
-      >
-        El Camino
-      </h1>
-      <p
-        class="text-xl md:text-2xl mb-2 font-light tracking-widest uppercase"
-        style="color: var(--color-bg-cool);"
-      >
-        Spectacle musico-théâtral
-      </p>
-      <p
-        class="text-sm mb-8 uppercase tracking-widest"
-        style="color: var(--color-secondary);"
-      >
-        Cie Fusibles & Dentelles
-      </p>
-      <div class="flex flex-col sm:flex-row gap-4 justify-center">
-        <a
-          href="#teaser"
-          class="inline-flex items-center gap-3 px-8 py-4 rounded text-white font-semibold text-lg transition-all hover:scale-105 hover:shadow-xl"
-          style="background-color: var(--color-primary);"
-        >
-          <svg viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
-            <path d="M8 5v14l11-7z"/>
-          </svg>
-          Voir le teaser
-        </a>
-        <a
-          href={`${base}contact`}
-          class="inline-flex items-center gap-3 px-8 py-4 rounded text-white font-semibold text-lg transition-all hover:scale-105 hover:shadow-xl border-2 border-white"
-          style="background: transparent;"
-        >
-          Programmer le spectacle
-        </a>
-      </div>
+    <div class="hero-ctas">
+      <Button href="#teaser" variant="primary" icon="▶">
+        Voir le teaser
+      </Button>
+      <Button href={`${base}contact`} variant="secondary">
+        Programmer le spectacle
+      </Button>
     </div>
-    <!-- Scroll indicator -->
-    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce opacity-70">
-      <svg viewBox="0 0 24 24" fill="white" class="w-8 h-8">
-        <path d="M7 10l5 5 5-5z"/>
-      </svg>
-    </div>
-  </section>
+  </PageHero>
 
   <!-- Teaser vidéo -->
-  <section id="teaser" class="py-16 px-4" style="background-color: var(--color-bg-warm);">
-    <div style="height: 3px; background: linear-gradient(to right, var(--color-secondary), var(--color-primary)); max-width: 200px; margin: 0 auto 2rem;"></div>
-    <div class="max-w-3xl mx-auto text-center">
-      <p class="text-xl md:text-2xl mb-8 italic" style="font-family: var(--font-heading); color: var(--color-primary);">
+  <section id="teaser" class="teaser-section">
+    <div class="teaser-section__accent"></div>
+    <div class="teaser-section__inner">
+      <EditorialQuote as="p">
         Entre ciel et chemin, une histoire qui commence là où les mots s'arrêtent...
-      </p>
-      <VideoEmbed videoId="OsuFC8ETyh4" title="El Camino — Teaser" />
+      </EditorialQuote>
+      <div class="teaser-section__video">
+        <VideoEmbed videoId="OsuFC8ETyh4" title={`${show.title} — Teaser`} />
+      </div>
     </div>
   </section>
 
   <!-- Aperçu Le spectacle -->
-  <section class="py-16 px-4" style="background-color: var(--color-bg-white);">
-    <div class="max-w-4xl mx-auto">
-      <div class="grid md:grid-cols-2 gap-12 items-center">
-        <div>
-          <p class="text-sm font-semibold uppercase tracking-widest mb-2" style="color: var(--color-secondary);">
-            Le spectacle
-          </p>
-          <h2 class="text-3xl md:text-4xl mb-5" style="font-family: var(--font-heading); color: var(--color-primary);">
-            Un spectacle qui ne fait pas dans la dentelle...
-          </h2>
-          <p class="text-base leading-relaxed mb-4" style="color: var(--color-text-light);">
-            Gabrielle, quinquagénaire phobique et insomniaque, part sur le Camino. Elle y croise Juan, musicien itinérant. Une rencontre improbable entre deux êtres que tout oppose.
-          </p>
-          <p class="text-base leading-relaxed mb-6" style="color: var(--color-text-light);">
-            1h20 de chansons, de show et de kilomètres, sur le temps qui passe, les contradictions humaines et le dépassement de soi.
-          </p>
-          <a
-            href={`${base}spectacle`}
-            class="inline-block px-6 py-3 rounded font-semibold transition-all hover:opacity-90"
-            style="background-color: var(--color-primary); color: white;"
-          >
+  <PageSection label="Le spectacle" title="Un spectacle qui ne fait pas dans la dentelle..." background="white">
+    <div class="show-preview">
+      <div class="show-preview__text">
+        <p>
+          Gabrielle, quinquagénaire phobique et insomniaque, part sur le Camino. Elle y croise
+          Juan, musicien itinérant. Une rencontre improbable entre deux êtres que tout oppose.
+        </p>
+        <p>
+          1h20 de chansons, de show et de kilomètres, sur le temps qui passe, les contradictions
+          humaines et le dépassement de soi.
+        </p>
+        <div class="show-preview__cta">
+          <Button href={`${base}spectacle`} variant="primary">
             Découvrir le spectacle
-          </a>
-        </div>
-        <div class="rounded-xl overflow-hidden shadow-lg">
-          <img
-            src={`${base}images/PaysageFD150.jpeg`}
-            alt="El Camino - Fusibles & Dentelles"
-            class="w-full h-64 object-cover"
-            loading="lazy"
-          />
+          </Button>
         </div>
       </div>
+      <div class="show-preview__image">
+        <img
+          src={`${base}images/PaysageFD150.jpeg`}
+          alt={`${show.title} — Fusibles & Dentelles`}
+          loading="lazy"
+        />
+      </div>
     </div>
-  </section>
+  </PageSection>
 
   <!-- Aperçu La compagnie -->
-  <section class="py-16 px-4 bg-white">
-    <div class="max-w-4xl mx-auto text-center">
-      <p class="text-sm font-semibold uppercase tracking-widest mb-2" style="color: var(--color-secondary);">
-        La compagnie
+  <PageSection label="La compagnie" title="Fusibles & Dentelles" background="white">
+    <div class="company-preview">
+      <p>
+        Un duo artistique qui allie humour, tendresse et virtuosité. Elisabeth von Buxhoeveden et
+        Jean-Marc Miralles créent des spectacles où la musique live et le théâtre se mêlent pour
+        raconter des histoires universelles.
       </p>
-      <h2 class="text-3xl md:text-4xl mb-5" style="font-family: var(--font-heading); color: var(--color-primary);">
-        Fusibles & Dentelles
-      </h2>
-      <p class="text-lg leading-relaxed max-w-2xl mx-auto mb-8" style="color: var(--color-text-light);">
-        Un duo artistique qui allie humour, tendresse et virtuosité. Elisabeth von Buxhoeveden et Jean-Marc Miralles créent des spectacles où la musique live et le théâtre se mêlent pour raconter des histoires universelles.
-      </p>
-      <a
-        href={`${base}compagnie`}
-        class="inline-block px-6 py-3 rounded border-2 font-semibold transition-all hover:bg-[var(--color-primary)] hover:text-white hover:border-[var(--color-primary)]"
-        style="border-color: var(--color-primary); color: var(--color-primary);"
-      >
-        La compagnie
-      </a>
+      <div class="company-preview__cta">
+        <Button href={`${base}compagnie`} variant="outline">
+          La compagnie
+        </Button>
+      </div>
     </div>
-  </section>
+  </PageSection>
 
   <!-- CTA Contact -->
-  <section class="py-12 px-4 text-white text-center" style="background-color: var(--color-secondary);">
-    <div class="max-w-2xl mx-auto">
-      <h2 class="text-2xl md:text-3xl mb-3" style="font-family: var(--font-heading);">
-        Vous souhaitez programmer El Camino ?
-      </h2>
-      <p class="mb-6 opacity-90">Contactez-nous pour discuter de votre projet.</p>
-      <a
-        href={`${base}contact`}
-        class="inline-block px-8 py-3 rounded-full bg-white font-semibold transition-all hover:scale-105"
-        style="color: var(--color-secondary);"
-      >
+  <section class="contact-band">
+    <div class="contact-band__inner">
+      <h2 class="contact-band__title">Vous souhaitez programmer El Camino ?</h2>
+      <p class="contact-band__subtitle">Contactez-nous pour discuter de votre projet.</p>
+      <a href={`${base}contact`} class="contact-band__cta">
         Nous contacter
       </a>
     </div>
@@ -157,3 +111,153 @@ const base = import.meta.env.BASE_URL;
 
   <Footer />
 </BaseLayout>
+
+<style>
+  /* ---- Hero CTAs (slotted inside PageHero cinematic) ---------------------- */
+  .hero-ctas {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    justify-content: center;
+    align-items: center;
+    margin-top: var(--space-6);
+  }
+  @media (min-width: 640px) {
+    .hero-ctas {
+      flex-direction: row;
+      gap: var(--space-5);
+    }
+  }
+  /* Ensure hero buttons are larger and more visible on cinematic background */
+  .hero-ctas :global(.btn) {
+    padding: var(--space-4) var(--space-8);
+    font-size: var(--text-base);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  }
+
+  /* ---- Teaser section ----------------------------------------------------- */
+  .teaser-section {
+    background-color: var(--color-bg-warm);
+    padding: var(--space-16) var(--space-5);
+  }
+  .teaser-section__accent {
+    height: 3px;
+    width: 200px;
+    background: var(--gradient-accent);
+    margin: 0 auto var(--space-8);
+  }
+  .teaser-section__inner {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .teaser-section__inner :global(.editorial-quote) {
+    border-left: none;
+    padding-left: 0;
+    text-align: center;
+    color: var(--color-primary);
+    font-size: var(--text-lg);
+    margin-bottom: var(--space-8);
+  }
+  .teaser-section__video {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  /* ---- Show preview grid -------------------------------------------------- */
+  .show-preview {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-10);
+    max-width: 960px;
+    margin: 0 auto;
+    align-items: center;
+  }
+  @media (min-width: 768px) {
+    .show-preview {
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-12);
+    }
+  }
+  .show-preview__text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    font-family: var(--font-family);
+    font-size: var(--text-base);
+    line-height: var(--leading-relaxed);
+    color: var(--color-text-light);
+  }
+  .show-preview__text p {
+    margin: 0;
+  }
+  .show-preview__cta {
+    margin-top: var(--space-4);
+  }
+  .show-preview__image img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+  }
+
+  /* ---- Company preview ---------------------------------------------------- */
+  .company-preview {
+    max-width: 720px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .company-preview p {
+    font-family: var(--font-family);
+    font-size: var(--text-md);
+    line-height: var(--leading-relaxed);
+    color: var(--color-text-light);
+    margin: 0 0 var(--space-8);
+  }
+  .company-preview__cta {
+    display: flex;
+    justify-content: center;
+  }
+
+  /* ---- Contact band ------------------------------------------------------- */
+  .contact-band {
+    background-color: var(--color-secondary);
+    color: #ffffff;
+    text-align: center;
+    padding: var(--space-12) var(--space-5);
+  }
+  .contact-band__inner {
+    max-width: 640px;
+    margin: 0 auto;
+  }
+  .contact-band__title {
+    font-family: var(--font-family);
+    font-style: italic;
+    font-weight: var(--weight-normal);
+    font-size: var(--text-xl);
+    line-height: var(--leading-tight);
+    margin: 0 0 var(--space-3);
+  }
+  .contact-band__subtitle {
+    font-family: var(--font-family);
+    font-size: var(--text-base);
+    opacity: 0.9;
+    margin: 0 0 var(--space-6);
+  }
+  .contact-band__cta {
+    display: inline-block;
+    padding: var(--space-3) var(--space-8);
+    border-radius: 9999px;
+    background-color: #ffffff;
+    color: var(--color-secondary);
+    font-family: var(--font-family);
+    font-size: var(--text-base);
+    font-weight: var(--weight-bold);
+    text-decoration: none;
+    transition: background-color 0.2s;
+  }
+  .contact-band__cta:hover {
+    background-color: var(--color-bg-warm);
+  }
+</style>
