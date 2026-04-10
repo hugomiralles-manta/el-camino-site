@@ -3,12 +3,14 @@ import GradientBar from './ui/GradientBar.astro';
 
 const base = import.meta.env.BASE_URL;
 
+// All internal links use trailing slash to match astro.config.mjs trailingSlash: 'always'.
+// Required by Astro dev server (strict); production (GitHub Pages) tolerates both.
 const navLinks = [
   { href: `${base}`, label: 'Accueil' },
-  { href: `${base}spectacle`, label: 'Le spectacle' },
-  { href: `${base}compagnie`, label: 'La compagnie' },
-  { href: `${base}calendrier`, label: 'Calendrier' },
-  { href: `${base}contact`, label: 'Contact' },
+  { href: `${base}spectacle/`, label: 'Le spectacle' },
+  { href: `${base}compagnie/`, label: 'La compagnie' },
+  { href: `${base}calendrier/`, label: 'Calendrier' },
+  { href: `${base}contact/`, label: 'Contact' },
 ];
 
 const currentPath = Astro.url.pathname;
