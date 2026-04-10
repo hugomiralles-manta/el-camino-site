@@ -1,0 +1,66 @@
+---
+import SectionLabel from '../ui/SectionLabel.astro';
+
+interface Props {
+  label?: string;
+  title?: string;
+  background?: 'white' | 'warm' | 'dark';
+}
+
+const { label, title, background = 'white' } = Astro.props;
+---
+
+<section class={`page-section page-section--${background}`}>
+  <div class="page-section__inner">
+    {label && <SectionLabel>{label}</SectionLabel>}
+    {title && <h2 class="page-section__title">{title}</h2>}
+    <slot />
+  </div>
+</section>
+
+<style>
+  .page-section {
+    width: 100%;
+  }
+
+  .page-section__inner {
+    max-width: var(--width-page);
+    margin: 0 auto;
+    padding: var(--space-16) var(--space-10);
+  }
+
+  @media (max-width: 640px) {
+    .page-section__inner {
+      padding: var(--space-10) var(--space-5);
+    }
+  }
+
+  /* ---- Background variants ------------------------------------------------ */
+  .page-section--white {
+    background-color: var(--color-bg-white);
+  }
+
+  .page-section--warm {
+    background-color: var(--color-bg-warm);
+  }
+
+  .page-section--dark {
+    background-color: var(--color-bg-dark);
+    color: var(--color-text-on-dark);
+  }
+
+  /* ---- Title -------------------------------------------------------------- */
+  .page-section__title {
+    font-family: var(--font-family);
+    font-style: italic;
+    font-weight: var(--weight-normal);
+    color: var(--color-primary);
+    font-size: var(--text-xl);
+    line-height: var(--leading-tight);
+    margin: var(--space-4) 0 var(--space-8);
+  }
+
+  .page-section--dark .page-section__title {
+    color: #ffffff;
+  }
+</style>
