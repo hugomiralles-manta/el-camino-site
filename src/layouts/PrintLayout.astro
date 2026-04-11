@@ -1,0 +1,96 @@
+---
+/*
+ * PrintLayout — minimal layout for HTML → PDF print deliverables (flyer, dossier).
+ *
+ * Differences vs BaseLayout:
+ * - No Header / Footer / nav
+ * - No body background (pages define their own)
+ * - @page rules for A4 portrait printing
+ * - Tokens.css imported (via global.css) → design system inherited
+ */
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = '' } = Astro.props;
+---
+
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    {description && <meta name="description" content={description} />}
+    <style is:global>
+      @page {
+        size: A4 portrait;
+        margin: 0;
+      }
+
+      html, body {
+        margin: 0;
+        padding: 0;
+        background: #a5a5a5;     /* Visual hint of page bleed when viewed on screen */
+        font-family: var(--font-family);
+        color: var(--color-text);
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      /* When printing, remove the screen-only grey background */
+      @media print {
+        html, body {
+          background: #ffffff;
+        }
+      }
+
+      /* Screen preview centering (matches print layout, easier to QA) */
+      .print-root {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px 0;
+        gap: 20px;
+      }
+
+      @media print {
+        .print-root {
+          padding: 0;
+          gap: 0;
+        }
+      }
+
+      .print-page {
+        width: 210mm;
+        min-height: 297mm;
+        max-height: 297mm;
+        overflow: hidden;
+        background: var(--color-bg-warm);
+        position: relative;
+        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.25);
+        page-break-after: always;
+        break-after: page;
+      }
+
+      @media print {
+        .print-page {
+          box-shadow: none;
+          margin: 0;
+        }
+        .print-page:last-child {
+          page-break-after: auto;
+          break-after: auto;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="print-root">
+      <slot />
+    </div>
+  </body>
+</html>
