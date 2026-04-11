@@ -66,7 +66,7 @@ const linkingThemes = [
   </PageSection>
 
   <!-- Philosophie — Créer du lien -->
-  <PageSection label="Philosophie" title="Créer du lien" background="white">
+  <PageSection label="Philosophie" title="Créer du lien" background="white" align="center">
     <div class="linking-grid">
       {linkingThemes.map((item) => (
         <div class="linking-card">
@@ -87,11 +87,12 @@ const linkingThemes = [
           bio={bio}
         />
       ))}
+      {/* No photo prop passed → ArtistCard renders text-only variant (no avatar placeholder) */}
     </div>
   </PageSection>
 
   <!-- Équipe élargie -->
-  <PageSection label="Équipe élargie" title="Ils accompagnent la compagnie" background="white">
+  <PageSection label="Équipe élargie" title="Ils accompagnent la compagnie" background="white" align="center">
     <div class="extended-team-grid">
       {extendedTeam.map(({ name, role, description }) => (
         <div class="team-card">
@@ -163,10 +164,10 @@ const linkingThemes = [
     background-color: var(--color-secondary);
     color: #ffffff;
     text-align: center;
-    padding: var(--space-16) var(--space-5);
+    padding: var(--space-20) var(--space-5);
   }
   .company-hero__inner {
-    max-width: 720px;
+    max-width: 800px;
     margin: 0 auto;
   }
   .company-hero__title {
@@ -175,13 +176,18 @@ const linkingThemes = [
     font-weight: var(--weight-normal);
     font-size: var(--text-3xl);
     line-height: var(--leading-tight);
-    margin: 0 0 var(--space-4);
+    margin: 0 0 var(--space-5);
+  }
+  @media (min-width: 768px) {
+    .company-hero__title {
+      font-size: var(--text-4xl);
+    }
   }
   .company-hero__tagline {
     font-family: var(--font-family);
     font-style: italic;
-    font-size: var(--text-md);
-    opacity: 0.9;
+    font-size: var(--text-lg);
+    opacity: 0.95;
     margin: 0;
   }
 
@@ -232,9 +238,15 @@ const linkingThemes = [
   .artists-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: var(--space-12);
-    max-width: 960px;
+    gap: var(--space-8);
+    max-width: 1024px;
     margin: 0 auto;
+  }
+  @media (min-width: 768px) {
+    .artists-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-10);
+    }
   }
 
   /* ---- Extended team grid ------------------------------------------------- */

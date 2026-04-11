@@ -23,10 +23,12 @@ const base = import.meta.env.BASE_URL;
   <PageHero
     label={show.label}
     title={show.title}
-    subtitle="Cie Fusibles & Dentelles"
+    subtitle={show.subtitle}
     tagline={show.tagline}
     banner={`${base}images/PaysageFD.jpeg`}
     bannerAlt={`${show.title} — les artistes sur le chemin`}
+    logo={`${base}logo/LOGO-B.png`}
+    logoAlt="Cie Fusibles & Dentelles"
     variant="cinematic"
     imageMode="fullbleed"
     heroSize="full"
@@ -83,7 +85,7 @@ const base = import.meta.env.BASE_URL;
   </PageSection>
 
   <!-- Aperçu La compagnie -->
-  <PageSection label="La compagnie" title="Fusibles & Dentelles" background="white">
+  <PageSection label="La compagnie" title="Fusibles & Dentelles" background="white" align="center">
     <div class="company-preview">
       <p>
         Un duo artistique qui allie humour, tendresse et virtuosité. Elisabeth von Buxhoeveden et

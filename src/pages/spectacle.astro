@@ -122,14 +122,14 @@ const ficheItems = [
     background-color: var(--color-primary);
     color: #ffffff;
     text-align: center;
-    padding: var(--space-16) var(--space-5);
+    padding: var(--space-20) var(--space-5);
   }
   .spectacle-hero__inner {
-    max-width: 720px;
+    max-width: 800px;
     margin: 0 auto;
   }
   .spectacle-hero__inner :global(.section-label) {
-    color: rgba(255, 255, 255, 0.75);
+    color: rgba(255, 255, 255, 0.85);
   }
   .spectacle-hero__title {
     font-family: var(--font-family);
@@ -137,12 +137,17 @@ const ficheItems = [
     font-weight: var(--weight-normal);
     font-size: var(--text-3xl);
     line-height: var(--leading-tight);
-    margin: var(--space-4) 0;
+    margin: var(--space-4) 0 var(--space-5);
+  }
+  @media (min-width: 768px) {
+    .spectacle-hero__title {
+      font-size: var(--text-4xl);
+    }
   }
   .spectacle-hero__tagline {
     font-family: var(--font-family);
-    font-size: var(--text-md);
-    opacity: 0.9;
+    font-size: var(--text-lg);
+    opacity: 0.95;
     margin: 0;
     line-height: var(--leading-normal);
   }

@@ -89,24 +89,30 @@ const datesPassees = [
     background-color: var(--color-primary);
     color: #ffffff;
     text-align: center;
-    padding: var(--space-16) var(--space-5);
+    padding: var(--space-20) var(--space-5);
   }
   .page-hero-compact__inner {
-    max-width: 640px;
+    max-width: 800px;
     margin: 0 auto;
   }
   .page-hero-compact__title {
     font-family: var(--font-family);
     font-style: italic;
     font-weight: var(--weight-normal);
-    font-size: var(--text-2xl);
+    font-size: var(--text-3xl);
     line-height: var(--leading-tight);
     margin: 0 0 var(--space-3);
   }
+  @media (min-width: 768px) {
+    .page-hero-compact__title {
+      font-size: var(--text-4xl);
+    }
+  }
   .page-hero-compact__subtitle {
     font-family: var(--font-family);
-    font-size: var(--text-md);
-    opacity: 0.9;
+    font-style: italic;
+    font-size: var(--text-lg);
+    opacity: 0.95;
     margin: 0;
   }
 
