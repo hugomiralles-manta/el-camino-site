@@ -8,16 +8,36 @@ const base = import.meta.env.BASE_URL;
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
 
       <!-- Logo + description -->
-      <div class="flex flex-col gap-4">
+      <div class="flex flex-col gap-4 items-start">
         <img
           src={`${base}logo/LOGO-B.png`}
           alt="Fusibles & Dentelles"
-          class="h-14 w-auto"
+          width="200"
+          height="92"
+          class="footer-logo"
         />
         <p class="text-sm text-gray-400 leading-relaxed">
           Compagnie de spectacle vivant basée à Mulhouse.
         </p>
       </div>
+
+      <style>
+        /*
+         * Logo intrinsic dimensions: 1198 x 549 (aspect ratio ~2.18:1).
+         * Fix the height and let the browser compute the width based on the
+         * natural aspect ratio. width/height attributes above are hints for
+         * CLS prevention — actual display sizes come from this rule.
+         */
+        .footer-logo {
+          height: 72px;
+          width: auto;
+          max-width: 200px;
+          object-fit: contain;
+          display: block;
+          flex-shrink: 0;
+          align-self: flex-start;
+        }
+      </style>
 
       <!-- Contact -->
       <div>
