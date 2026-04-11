@@ -43,16 +43,19 @@
   /* Single font family used everywhere — Palatino serif for editorial feel */
   --font-family:          'Palatino Linotype', Palatino, Georgia, 'Times New Roman', serif;
 
-  /* Font sizes (editorial scale, matches mail v8-warm) */
+  /* Font sizes (editorial scale — web uses bigger impact than mail v8-warm) */
   --text-xs:              11px;      /* Uppercase labels */
   --text-sm:              13px;      /* Small captions */
-  --text-base:            15px;      /* Body */
-  --text-md:              17px;      /* Editorial chapeau */
-  --text-lg:              20px;      /* Section lead */
-  --text-lead:            24px;      /* v1.1 — intro paragraphs (bridge 20→28) */
-  --text-xl:              28px;      /* Section title */
-  --text-2xl:             36px;      /* Hero title */
-  --text-3xl:             48px;      /* Display (page heroes) */
+  --text-base:            16px;      /* Body (v1.2 — uplift from 15 for readability) */
+  --text-md:              18px;      /* Editorial chapeau (v1.2 — uplift from 17) */
+  --text-lg:              22px;      /* Section lead (v1.2 — uplift from 20) */
+  --text-lead:            26px;      /* Intro paragraphs (bridge 22 → 32) */
+  --text-xl:              32px;      /* Section title (v1.2 — uplift from 28) */
+  --text-2xl:             42px;      /* Large section title (v1.2 — uplift from 36) */
+  --text-3xl:             56px;      /* Display compact (v1.2 — uplift from 48) */
+  --text-4xl:             72px;      /* v1.2 — cinematic hero title tablet */
+  --text-5xl:             88px;      /* v1.2 — cinematic hero title desktop */
+  --text-6xl:             104px;     /* v1.2 — cinematic hero title XL desktop */
 
   /* Mobile body size uplift (Palatino needs min 16px on small screens) */
   --text-base-mobile:     16px;      /* v1.1 — applied via @media (max-width: 640px) */
