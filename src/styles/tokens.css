@@ -1,0 +1,180 @@
+/*
+ * ============================================================================
+ * EL CAMINO — DESIGN TOKENS
+ * ============================================================================
+ * Single source of truth for colors, typography, spacing, radius, shadows.
+ *
+ * HOW TO CHANGE A VALUE:
+ * - Color: update --color-* below
+ * - Font: update --font-* below
+ * - Spacing: update --space-* below
+ *
+ * Mail v8-warm is FROZEN (already sent to client). If you update a token here
+ * and want the mail to match, manually edit repos/el-camino-site/mail/v8-warm.html
+ * — tokens used in the mail are documented in the "MAIL INLINE REFERENCE" section.
+ * ============================================================================
+ */
+
+:root {
+  /* ---- COLORS ------------------------------------------------------------ */
+  --color-primary:        #BF2750;   /* Bordeaux/crimson — titles, CTA primary */
+  --color-primary-dark:   #9e2043;   /* v1.1 — hover state primary (crimson -15%) */
+  --color-secondary:      #5EAABA;   /* Teal — accents, CTA secondary, labels */
+  --color-secondary-dark: #4d8f9e;   /* v1.1 — hover state secondary (teal -15%) */
+  --color-accent-green:   #9CC5A1;   /* Mint — heart motifs (from PDFs), success */
+  --color-error:          #c0392b;   /* v1.1 — error state (distinct from crimson) */
+
+  --color-bg-warm:        #f4f1ed;   /* Sand warm — page background (mail, site) */
+  --color-bg-cool:        #B8E0E8;   /* Sky blue — accent bg (dossier variant) */
+  --color-bg-white:       #ffffff;   /* Cards, containers */
+  --color-bg-dark:        #333333;   /* Footer */
+
+  --color-text:           #333333;   /* Main body text */
+  --color-text-light:     #555555;   /* Secondary text */
+  --color-text-muted:     #999999;   /* Labels, metadata */
+  --color-text-on-dark:   #aaaaaa;   /* Footer text */
+  --color-border:         #e0e0e0;   /* Separators */
+
+  /* ---- GRADIENTS --------------------------------------------------------- */
+  --gradient-accent:      linear-gradient(to right, var(--color-secondary), var(--color-primary));
+  --gradient-accent-vert: linear-gradient(to bottom, var(--color-secondary), var(--color-primary));   /* v1.1 — lateral rules (dossier pages) */
+
+  /* ---- TYPOGRAPHY -------------------------------------------------------- */
+  /* Single font family used everywhere — Palatino serif for editorial feel */
+  --font-family:          'Palatino Linotype', Palatino, Georgia, 'Times New Roman', serif;
+
+  /* Font sizes (editorial scale — web uses bigger impact than mail v8-warm) */
+  --text-xs:              11px;      /* Uppercase labels */
+  --text-sm:              13px;      /* Small captions */
+  --text-base:            16px;      /* Body (v1.2 — uplift from 15 for readability) */
+  --text-md:              18px;      /* Editorial chapeau (v1.2 — uplift from 17) */
+  --text-lg:              22px;      /* Section lead (v1.2 — uplift from 20) */
+  --text-lead:            26px;      /* Intro paragraphs (bridge 22 → 32) */
+  --text-xl:              32px;      /* Section title (v1.2 — uplift from 28) */
+  --text-2xl:             42px;      /* Large section title (v1.2 — uplift from 36) */
+  --text-3xl:             56px;      /* Display compact (v1.2 — uplift from 48) */
+  --text-4xl:             72px;      /* v1.2 — cinematic hero title tablet */
+  --text-5xl:             88px;      /* v1.2 — cinematic hero title desktop */
+  --text-6xl:             104px;     /* v1.2 — cinematic hero title XL desktop */
+
+  /* Mobile body size uplift (Palatino needs min 16px on small screens) */
+  --text-base-mobile:     16px;      /* v1.1 — applied via @media (max-width: 640px) */
+
+  /* Font fallback stack documented for failed-load scenarios */
+  --font-family-fallback: Georgia, 'Times New Roman', serif;  /* v1.1 */
+
+  /* Letter spacing */
+  --tracking-tight:       normal;
+  --tracking-wide:        2px;       /* Uppercase labels small */
+  --tracking-wider:       3px;       /* Uppercase labels large */
+
+  /* Line heights */
+  --leading-tight:        1.1;       /* Headings */
+  --leading-normal:       1.4;
+  --leading-relaxed:      1.6;       /* Body editorial */
+
+  /* Font weights (Palatino is naturally weighty, use sparingly) */
+  --weight-normal:        400;
+  --weight-bold:          700;
+
+  /* ---- SPACING (8pt scale) ----------------------------------------------- */
+  --space-1:              4px;
+  --space-2:              8px;
+  --space-3:              12px;
+  --space-4:              16px;
+  --space-5:              20px;
+  --space-6:              24px;
+  --space-8:              32px;
+  --space-10:             40px;
+  --space-12:             48px;
+  --space-16:             64px;
+  --space-20:             80px;
+
+  /* Content widths */
+  --width-mail:           600px;     /* Mail card width reference */
+  --width-content:        720px;     /* max-w-3xl roughly — editorial container */
+  --width-page:           1024px;    /* Header/Footer/grid width */
+
+  /* ---- RADIUS ------------------------------------------------------------ */
+  --radius-sm:            4px;       /* Buttons (matches mail) */
+  --radius-md:            6px;       /* Images (matches mail banner) */
+  --radius-lg:            12px;      /* Cards large */
+
+  /* ---- BORDERS ----------------------------------------------------------- */
+  --border-quote:         3px solid var(--color-primary);   /* editorial quote accent */
+  --border-gradient:      3px;                               /* top gradient bar height */
+  --border-gradient-mail: 5px;                               /* mail variant */
+
+  /* ---- SHADOWS ----------------------------------------------------------- */
+  --shadow-sm:            0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-md:            0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-lg:            0 10px 30px rgba(0, 0, 0, 0.12);
+
+  /* ---- Z-INDEX ----------------------------------------------------------- */
+  --z-sticky:             50;
+  --z-modal:              100;
+}
+
+/* Tailwind v4 @theme integration — expose tokens as Tailwind utilities
+ *
+ * IMPORTANT: Tailwind v4 resolves @theme at build time, BEFORE :root custom
+ * properties are available to the browser. Using var(--color-primary) here
+ * creates a circular reference and produces invalid/empty utilities.
+ *
+ * MUST use literal values. This is an intentional duplication with :root above
+ * — the two blocks are kept on adjacent lines so any update requires touching
+ * only this one file (DRY in the file, not in the source).
+ */
+@theme {
+  --color-primary:        #BF2750;
+  --color-primary-dark:   #9e2043;
+  --color-secondary:      #5EAABA;
+  --color-secondary-dark: #4d8f9e;
+  --color-accent-green:   #9CC5A1;
+  --color-error:          #c0392b;
+  --color-bg-warm:        #f4f1ed;
+  --color-bg-cool:        #B8E0E8;
+  --color-bg-dark:        #333333;
+  --color-text:           #333333;
+  --color-text-light:     #555555;
+  --color-text-muted:     #999999;
+  --font-family-serif:    'Palatino Linotype', Palatino, Georgia, 'Times New Roman', serif;
+}
+
+@media print {
+  :root {
+    --shadow-sm: none;
+    --shadow-md: none;
+    --shadow-lg: none;
+  }
+  .card { border: 1px solid var(--color-border); }
+  /* Gradients → solid borders for unpredictable printers */
+  .gradient-bar { background: var(--color-primary); }
+}
+
+/*
+ * ============================================================================
+ * MAIL INLINE REFERENCE — mail/v8-warm.html
+ * ============================================================================
+ * Tokens used inline in the mail (for manual sync if tokens change):
+ *
+ * background page:    #f4f1ed  = --color-bg-warm
+ * background card:    #ffffff  = --color-bg-white
+ * gradient top bar:   linear-gradient(to right, #5EAABA, #BF2750) = --gradient-accent
+ * primary crimson:    #BF2750  = --color-primary
+ * secondary teal:     #5EAABA  = --color-secondary
+ * text main:          #333     = --color-text
+ * text secondary:     #555     = --color-text-light
+ * text muted:         #666     (no exact token, close to --color-text-light)
+ * footer bg:          #333     = --color-bg-dark
+ * footer text:        #aaa/#777 = --color-text-on-dark
+ * border separator:   #e0e0e0  = --color-border
+ * font family:        Palatino, Georgia, 'Times New Roman', serif = --font-family
+ *
+ * font sizes used:   11, 12, 13, 14, 15, 17, 36  → covered by --text-* scale
+ * spacing used:      padding: 28px 40px / 24px / 16px → covered by --space-* scale
+ * radius:            4px (buttons), 6px (image) → covered by --radius-sm/--radius-md
+ * border top bar:    5px → --border-gradient-mail
+ * editorial quote:   border-left 3px solid #BF2750 → --border-quote
+ * ============================================================================
+ */

@@ -1,0 +1,83 @@
+---
+import SectionLabel from '../ui/SectionLabel.astro';
+
+interface Props {
+  label?: string;
+  title?: string;
+  background?: 'white' | 'warm' | 'dark';
+  align?: 'left' | 'center';
+}
+
+const { label, title, background = 'white', align = 'left' } = Astro.props;
+---
+
+<section class={`page-section page-section--${background} page-section--align-${align}`}>
+  <div class="page-section__inner">
+    {label && <SectionLabel>{label}</SectionLabel>}
+    {title && <h2 class="page-section__title">{title}</h2>}
+    <slot />
+  </div>
+</section>
+
+<style>
+  .page-section {
+    width: 100%;
+  }
+
+  .page-section__inner {
+    max-width: var(--width-page);
+    margin: 0 auto;
+    padding: var(--space-16) var(--space-10);
+  }
+
+  @media (max-width: 640px) {
+    .page-section__inner {
+      padding: var(--space-12) var(--space-5);
+    }
+  }
+
+  /* ---- Background variants ------------------------------------------------ */
+  .page-section--white {
+    background-color: var(--color-bg-white);
+  }
+
+  .page-section--warm {
+    background-color: var(--color-bg-warm);
+  }
+
+  .page-section--dark {
+    background-color: var(--color-bg-dark);
+    color: var(--color-text-on-dark);
+  }
+
+  /* ---- Alignment variants ------------------------------------------------- */
+  .page-section--align-left .page-section__inner > :global(.section-label),
+  .page-section--align-left .page-section__title {
+    text-align: left;
+  }
+  .page-section--align-center .page-section__inner > :global(.section-label),
+  .page-section--align-center .page-section__title {
+    text-align: center;
+  }
+
+  /* ---- Title (bigger, more impactful) ------------------------------------- */
+  .page-section__title {
+    font-family: var(--font-family);
+    font-style: italic;
+    font-weight: var(--weight-normal);
+    color: var(--color-primary);
+    font-size: var(--text-2xl);
+    line-height: var(--leading-tight);
+    margin: var(--space-4) 0 var(--space-10);
+  }
+
+  @media (min-width: 768px) {
+    .page-section__title {
+      font-size: var(--text-3xl);
+    }
+  }
+
+  .page-section--dark .page-section__title {
+    color: #ffffff;
+  }
+</style>

@@ -3,31 +3,18 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import VideoEmbed from '../components/VideoEmbed.astro';
+import PageSection from '../components/layout/PageSection.astro';
+import Card from '../components/ui/Card.astro';
+import ArtistCard from '../components/content/ArtistCard.astro';
+import { company } from '../content/company';
+import { artists } from '../content/artists';
 
 const base = import.meta.env.BASE_URL;
 
-const artistes = [
-  {
-    name: 'Elisabeth von Buxhoeveden',
-    tagline: 'La marcheuse, c\'est elle.',
-    bio: [
-      'Elle est aussi chanteuse, comédienne, metteure en scène, rêveuse, blonde et insomniaque.',
-      'Le théâtre lui colle à la peau, elle se brosse les dents en chantant et n\'arrive pas à devenir végétarienne pour de vrai.',
-      'Pour elle, une journée sans rire, ça n\'existe pas.',
-    ],
-  },
-  {
-    name: 'Jean-Marc Miralles',
-    tagline: 'Le musicien, c\'est lui.',
-    bio: [
-      'Il est aussi compositeur, chanteur, comédien, ronchon, pied-noir et lève-tôt.',
-      'Le blues lui colle à la peau, il épluche les carottes en battant la mesure et n\'arrive pas à faire la grasse mat pour de vrai.',
-      'Pour lui, une journée sans corde à gratter n\'est pas une bonne journée.',
-    ],
-  },
-];
+// Main duo shown as full ArtistCards. Extended team shown as summary cards.
+const mainDuo = artists.filter((a) => a.id === 'elisabeth' || a.id === 'jean-marc');
 
-const equipeElargie = [
+const extendedTeam = [
   {
     name: 'Karine Darcos',
     role: 'Paroles & dramaturgie',
@@ -36,8 +23,15 @@ const equipeElargie = [
   {
     name: 'Maud Landau',
     role: 'Collaboration artistique',
-    description: 'Comédienne, metteure en scène, fondatrice de la compagnie La Libellule.',
+    description: 'Comédienne, metteuse en scène, fondatrice de la compagnie La Libellule.',
   },
+];
+
+const linkingThemes = [
+  'Entre théâtre et musique',
+  'Entre artistes et spectateurs',
+  'Entre la vie et la scène',
+  'Entre humour et tragédie',
 ];
 ---
 
@@ -47,173 +41,327 @@ const equipeElargie = [
 >
   <Header />
 
-  <!-- Hero -->
-  <section class="py-16 px-4 text-white text-center" style="background-color: var(--color-secondary);">
-    <div class="max-w-3xl mx-auto">
-      <h1 class="text-5xl md:text-6xl font-bold mb-4" style="font-family: var(--font-heading);">
-        Fusibles & Dentelles
-      </h1>
-      <p class="text-lg opacity-90 italic">
+  <!-- Hero compact teal band -->
+  <section class="company-hero">
+    <div class="company-hero__inner">
+      <h1 class="company-hero__title">Fusibles &amp; Dentelles</h1>
+      <p class="company-hero__tagline">
         La compagnie qui sait changer son fusible d'épaule !
       </p>
     </div>
   </section>
 
   <!-- Présentation -->
-  <section class="py-16 px-4" style="background-color: var(--color-bg-warm);">
-    <div class="max-w-3xl mx-auto">
-      <h2 class="text-2xl md:text-3xl mb-6" style="font-family: var(--font-heading); color: var(--color-primary);">
-        La compagnie
-      </h2>
-      <div class="space-y-5 text-base leading-relaxed" style="color: var(--color-text);">
-        <p>
-          Fusibles & Dentelles, c'est avant tout le duo formé par la comédienne et chanteuse Elisabeth von Buxhoeveden et par le musicien et comédien Jean-Marc Miralles.
-        </p>
-        <p>
-          Les deux complices ont actuellement deux spectacles à leur actif : <em>La face cachée de la lune de miel</em> et <em>El Camino</em>.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Philosophie -->
-  <section class="py-16 px-4 bg-white">
-    <div class="max-w-3xl mx-auto">
-      <h2 class="text-2xl md:text-3xl mb-8" style="font-family: var(--font-heading); color: var(--color-primary);">
-        Créer du lien
-      </h2>
-      <div class="grid md:grid-cols-2 gap-6">
-        {[
-          'Entre théâtre et musique',
-          'Entre artistes et spectateurs',
-          'Entre la vie et la scène',
-          'Entre humour et tragédie',
-        ].map((item) => (
-          <div
-            class="p-5 rounded-xl border-l-4"
-            style="background-color: var(--color-bg-warm); border-color: var(--color-secondary);"
-          >
-            <p class="text-base leading-relaxed" style="color: var(--color-text);">{item}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- Biographies -->
-  <section class="py-16 px-4" style="background-color: var(--color-bg-warm);">
-    <div class="max-w-4xl mx-auto">
-      <h2 class="text-2xl md:text-3xl mb-10" style="font-family: var(--font-heading); color: var(--color-primary);">
-        Les artistes
-      </h2>
-      <div class="grid md:grid-cols-2 gap-8">
-        {artistes.map(({ name, tagline, bio }) => (
-          <div class="p-6 rounded-xl bg-white shadow-sm">
-            <h3 class="text-xl mb-1" style="font-family: var(--font-heading); color: var(--color-text);">
-              {name}
-            </h3>
-            <p class="font-semibold italic mb-4 text-sm" style="color: var(--color-primary);">
-              {tagline}
-            </p>
-            <div class="space-y-2">
-              {bio.map((line) => (
-                <p class="text-sm leading-relaxed" style="color: var(--color-text-light);">{line}</p>
-              ))}
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- Équipe élargie -->
-  <section class="py-12 px-4 bg-white">
-    <div class="max-w-4xl mx-auto">
-      <h2 class="text-xl mb-8" style="font-family: var(--font-heading); color: var(--color-text);">
-        L'équipe élargie
-      </h2>
-      <div class="grid md:grid-cols-2 gap-6">
-        {equipeElargie.map(({ name, role, description }) => (
-          <div class="p-5 rounded-xl" style="background-color: var(--color-bg-warm);">
-            <h3 class="font-semibold mb-0.5" style="color: var(--color-text);">{name}</h3>
-            <p class="text-xs uppercase tracking-wide mb-2" style="color: var(--color-secondary);">{role}</p>
-            <p class="text-sm leading-relaxed" style="color: var(--color-text-light);">{description}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- Les spectacles -->
-  <section class="py-16 px-4" style="background-color: var(--color-bg-warm);">
-    <div class="max-w-4xl mx-auto">
-      <h2 class="text-2xl md:text-3xl mb-10" style="font-family: var(--font-heading); color: var(--color-primary);">
-        Les spectacles
-      </h2>
-      <div class="grid md:grid-cols-2 gap-8">
-
-        <!-- El Camino -->
-        <div class="bg-white rounded-xl shadow-sm overflow-hidden">
-          <div class="p-6">
-            <h3 class="text-xl mb-2" style="font-family: var(--font-heading); color: var(--color-text);">
-              El Camino
-            </h3>
-            <p class="text-sm leading-relaxed mb-4" style="color: var(--color-text-light);">
-              Un show musico-théâtral plein d'humour et de tendresse sur le temps qui passe et le dépassement de soi. 1h20 de chansons, de show et de kilomètres.
-            </p>
-            <a
-              href={`${base}spectacle`}
-              class="text-sm font-semibold transition-all hover:underline"
-              style="color: var(--color-primary);"
-            >
-              Découvrir le spectacle →
-            </a>
-          </div>
-        </div>
-
-        <!-- La face cachée -->
-        <div class="bg-white rounded-xl shadow-sm overflow-hidden">
-          <div class="p-6">
-            <h3 class="text-xl mb-2" style="font-family: var(--font-heading); color: var(--color-text);">
-              La face cachée de la lune de miel
-            </h3>
-            <p class="text-sm leading-relaxed mb-4" style="color: var(--color-text-light);">
-              Le premier spectacle de la compagnie — une comédie musicale sur le couple, le temps qui passe, et les illusions perdues.
-            </p>
-            <a
-              href="https://www.youtube.com/watch?v=7Em9EGD7j6I"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="text-sm font-semibold transition-all hover:underline"
-              style="color: var(--color-secondary);"
-            >
-              Voir le teaser →
-            </a>
-          </div>
-          <div class="px-6 pb-6">
-            <VideoEmbed videoId="7Em9EGD7j6I" title="Teaser La face cachée de la lune de miel" />
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- Logo & Identité -->
-  <section class="py-12 px-4 text-center bg-white">
-    <div class="max-w-sm mx-auto">
-      <img
-        src={`${base}logo/LOGO-COULEUR.png`}
-        alt="Logo Fusibles & Dentelles"
-        class="mx-auto h-32 w-auto mb-6"
-        loading="lazy"
-      />
-      <p class="text-sm" style="color: var(--color-text-muted);">
-        SIRET : 87958685700010<br />
-        Licence : PLATESV-D-2025-002964
+  <PageSection label="La compagnie" title="Un duo, deux spectacles" background="warm">
+    <div class="company-intro">
+      <p>
+        Fusibles &amp; Dentelles, c'est avant tout le duo formé par la comédienne et chanteuse
+        Elisabeth von Buxhoeveden et par le musicien et comédien Jean-Marc Miralles.
+      </p>
+      <p>
+        Les deux complices ont actuellement deux spectacles à leur actif :
+        <em>La face cachée de la lune de miel</em> et <em>El Camino</em>.
       </p>
     </div>
+  </PageSection>
+
+  <!-- Philosophie — Créer du lien -->
+  <PageSection label="Philosophie" title="Créer du lien" background="white" align="center">
+    <div class="linking-grid">
+      {linkingThemes.map((item) => (
+        <div class="linking-card">
+          <p>{item}</p>
+        </div>
+      ))}
+    </div>
+  </PageSection>
+
+  <!-- Biographies du duo -->
+  <PageSection label="Les artistes" title="Le duo" background="warm">
+    <div class="artists-grid">
+      {mainDuo.map(({ name, tagline, bio, roles }) => (
+        <ArtistCard
+          name={name}
+          role={roles.join(' · ')}
+          tagline={tagline}
+          bio={bio}
+        />
+      ))}
+      {/* No photo prop passed → ArtistCard renders text-only variant (no avatar placeholder) */}
+    </div>
+  </PageSection>
+
+  <!-- Équipe élargie -->
+  <PageSection label="Équipe élargie" title="Ils accompagnent la compagnie" background="white" align="center">
+    <div class="extended-team-grid">
+      {extendedTeam.map(({ name, role, description }) => (
+        <div class="team-card">
+          <h3 class="team-card__name">{name}</h3>
+          <p class="team-card__role">{role}</p>
+          <p class="team-card__description">{description}</p>
+        </div>
+      ))}
+    </div>
+  </PageSection>
+
+  <!-- Les spectacles -->
+  <PageSection label="Répertoire" title="Les spectacles" background="warm">
+    <div class="shows-grid">
+      <!-- El Camino -->
+      <Card>
+        <h3 class="show-title">El Camino</h3>
+        <p class="show-description">
+          Un show musico-théâtral plein d'humour et de tendresse sur le temps qui passe et le
+          dépassement de soi. 1h20 de chansons, de show et de kilomètres.
+        </p>
+        <a href={`${base}spectacle/`} class="show-link show-link--primary">
+          Découvrir le spectacle →
+        </a>
+      </Card>
+
+      <!-- La face cachée -->
+      <Card>
+        <h3 class="show-title">La face cachée de la lune de miel</h3>
+        <p class="show-description">
+          Le premier spectacle de la compagnie — une comédie musicale sur le couple, le temps qui
+          passe, et les illusions perdues.
+        </p>
+        <a
+          href="https://www.youtube.com/watch?v=7Em9EGD7j6I"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="show-link show-link--secondary"
+        >
+          Voir le teaser →
+        </a>
+        <div class="show-video">
+          <VideoEmbed videoId="7Em9EGD7j6I" title="Teaser La face cachée de la lune de miel" />
+        </div>
+      </Card>
+    </div>
+  </PageSection>
+
+  <!-- Logo & Identité -->
+  <section class="company-footer">
+    <img
+      src={`${base}logo/LOGO-COULEUR.png`}
+      alt={`Logo ${company.shortName}`}
+      class="company-footer__logo"
+      loading="lazy"
+    />
+    <p class="company-footer__legal">
+      SIRET : {company.legal.siret}<br />
+      Licence : {company.legal.license.replace('Cat 2 : ', '')}
+    </p>
   </section>
 
   <Footer />
 </BaseLayout>
+
+<style>
+  /* ---- Hero --------------------------------------------------------------- */
+  .company-hero {
+    background-color: var(--color-secondary);
+    color: #ffffff;
+    text-align: center;
+    padding: var(--space-20) var(--space-5);
+  }
+  .company-hero__inner {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  .company-hero__title {
+    font-family: var(--font-family);
+    font-style: italic;
+    font-weight: var(--weight-normal);
+    font-size: var(--text-3xl);
+    line-height: var(--leading-tight);
+    margin: 0 0 var(--space-5);
+  }
+  @media (min-width: 768px) {
+    .company-hero__title {
+      font-size: var(--text-4xl);
+    }
+  }
+  .company-hero__tagline {
+    font-family: var(--font-family);
+    font-style: italic;
+    font-size: var(--text-lg);
+    opacity: 0.95;
+    margin: 0;
+  }
+
+  /* ---- Intro paragraphs --------------------------------------------------- */
+  .company-intro {
+    max-width: 720px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+    font-family: var(--font-family);
+    font-size: var(--text-base);
+    line-height: var(--leading-relaxed);
+    color: var(--color-text);
+  }
+  .company-intro p {
+    margin: 0;
+  }
+
+  /* ---- Linking themes grid ------------------------------------------------ */
+  .linking-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-5);
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  @media (min-width: 640px) {
+    .linking-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .linking-card {
+    padding: var(--space-5);
+    border-radius: var(--radius-lg);
+    background-color: var(--color-bg-warm);
+    border-left: 4px solid var(--color-secondary);
+  }
+  .linking-card p {
+    font-family: var(--font-family);
+    font-size: var(--text-base);
+    line-height: var(--leading-relaxed);
+    color: var(--color-text);
+    margin: 0;
+  }
+
+  /* ---- Artists grid (main duo) ------------------------------------------- */
+  .artists-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-8);
+    max-width: 1024px;
+    margin: 0 auto;
+  }
+  @media (min-width: 768px) {
+    .artists-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-10);
+    }
+  }
+
+  /* ---- Extended team grid ------------------------------------------------- */
+  .extended-team-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-5);
+    max-width: 960px;
+    margin: 0 auto;
+  }
+  @media (min-width: 768px) {
+    .extended-team-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .team-card {
+    padding: var(--space-5);
+    border-radius: var(--radius-lg);
+    background-color: var(--color-bg-warm);
+  }
+  .team-card__name {
+    font-family: var(--font-family);
+    font-size: var(--text-md);
+    font-weight: var(--weight-bold);
+    color: var(--color-text);
+    margin: 0 0 var(--space-1);
+  }
+  .team-card__role {
+    font-family: var(--font-family);
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    color: var(--color-secondary);
+    margin: 0 0 var(--space-2);
+  }
+  .team-card__description {
+    font-family: var(--font-family);
+    font-size: var(--text-sm);
+    line-height: var(--leading-relaxed);
+    color: var(--color-text-light);
+    margin: 0;
+  }
+
+  /* ---- Shows grid --------------------------------------------------------- */
+  .shows-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-8);
+    max-width: 1024px;
+    margin: 0 auto;
+  }
+  @media (min-width: 768px) {
+    .shows-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .show-title {
+    font-family: var(--font-family);
+    font-style: italic;
+    font-size: var(--text-xl);
+    color: var(--color-primary);
+    font-weight: var(--weight-normal);
+    line-height: var(--leading-tight);
+    margin: 0 0 var(--space-3);
+  }
+  .show-description {
+    font-family: var(--font-family);
+    font-size: var(--text-base);
+    line-height: var(--leading-relaxed);
+    color: var(--color-text-light);
+    margin: 0 0 var(--space-5);
+  }
+  .show-link {
+    font-family: var(--font-family);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-bold);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .show-link:hover {
+    text-decoration: underline;
+  }
+  .show-link--primary {
+    color: var(--color-primary);
+  }
+  .show-link--primary:hover {
+    color: var(--color-primary-dark);
+  }
+  .show-link--secondary {
+    color: var(--color-secondary);
+  }
+  .show-link--secondary:hover {
+    color: var(--color-secondary-dark);
+  }
+  .show-video {
+    margin-top: var(--space-5);
+  }
+
+  /* ---- Company footer (logo + legal) ------------------------------------- */
+  .company-footer {
+    background-color: var(--color-bg-white);
+    text-align: center;
+    padding: var(--space-12) var(--space-5);
+  }
+  .company-footer__logo {
+    display: block;
+    height: 128px;
+    width: auto;
+    margin: 0 auto var(--space-6);
+  }
+  .company-footer__legal {
+    font-family: var(--font-family);
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    line-height: var(--leading-relaxed);
+    margin: 0;
+  }
+</style>

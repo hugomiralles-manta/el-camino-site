@@ -1,0 +1,9 @@
+---
+interface Props {
+  as?: 'p' | 'blockquote';
+}
+const { as: Tag = 'blockquote' } = Astro.props;
+---
+<Tag class="editorial-quote">
+  <slot />
+</Tag>

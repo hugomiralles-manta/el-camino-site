@@ -1,0 +1,306 @@
+---
+import PrintLayout from '../../layouts/PrintLayout.astro';
+import GradientBar from '../../components/ui/GradientBar.astro';
+import Divider from '../../components/ui/Divider.astro';
+import EditorialQuote from '../../components/ui/EditorialQuote.astro';
+import { show } from '../../content/show';
+import { company } from '../../content/company';
+
+const base = import.meta.env.BASE_URL;
+const fullAddress = `${company.address.street} - ${company.address.zipcode} ${company.address.city}`;
+---
+
+<PrintLayout title={`${show.title} — Flyer A4`}>
+  <!--
+    =====================================================================
+    PAGE 1 — RECTO
+    Layout per Pixel visual spec:
+    - Gradient bar top 5px
+    - Upper third: logo + label + title centered
+    - Middle: photo bord-a-bord (PaysageFD.jpeg)
+    - Lower third: tagline centered on white card
+    =====================================================================
+  -->
+  <article class="print-page flyer-recto">
+    <GradientBar height="5px" />
+
+    <header class="flyer-recto__header">
+      <img
+        src={`${base}logo/LOGO-COULEUR.png`}
+        alt="Cie Fusibles et Dentelles"
+        class="flyer-recto__logo"
+      />
+      <p class="flyer-recto__label">{show.label}</p>
+      <h1 class="flyer-recto__title">{show.title}</h1>
+    </header>
+
+    <figure class="flyer-recto__banner">
+      <img
+        src={`${base}images/PaysageFD.jpeg`}
+        alt={`${show.title} — Les artistes sur le chemin`}
+      />
+    </figure>
+
+    <footer class="flyer-recto__footer">
+      <p class="flyer-recto__tagline">{show.subtitle}</p>
+      <p class="flyer-recto__duo">{company.name}</p>
+    </footer>
+  </article>
+
+  <!--
+    =====================================================================
+    PAGE 2 — VERSO
+    Editorial layout with pitch, editorial quote, credits, dark footer.
+    =====================================================================
+  -->
+  <article class="print-page flyer-verso">
+    <GradientBar height="5px" />
+
+    <header class="flyer-verso__header">
+      <h2 class="flyer-verso__title">{show.title}</h2>
+      <p class="flyer-verso__headline">
+        {show.headline}<br />
+        <span class="flyer-verso__headline-sub">{show.headlineContd}</span>
+      </p>
+    </header>
+
+    <section class="flyer-verso__body">
+      <p class="flyer-verso__pitch">{show.pitch}</p>
+      <p class="flyer-verso__description">{show.description}</p>
+
+      <EditorialQuote as="p">{show.details}</EditorialQuote>
+
+      <p class="flyer-verso__duo">
+        Avec <strong>Elisabeth von Buxhoeveden</strong> (chant et jeu)<br />
+        et <strong>Jean-Marc Miralles</strong> (musique, chant et jeu).
+      </p>
+    </section>
+
+    <Divider />
+
+    <section class="flyer-verso__credits">
+      <div class="flyer-verso__credits-col">
+        <p><strong>Compositions</strong><br />Jean-Marc Miralles</p>
+        <p><strong>Paroles</strong><br />Karine Darcos</p>
+      </div>
+      <div class="flyer-verso__credits-col">
+        <p><strong>Texte et idée originale</strong><br />Elisabeth von Buxhoeveden</p>
+        <p><strong>Dramaturgie</strong><br />Karine Darcos</p>
+      </div>
+    </section>
+
+    <footer class="flyer-verso__legal">
+      <p class="flyer-verso__legal-line">
+        {company.name} — {fullAddress} — Tél. {company.phone}
+      </p>
+      <p class="flyer-verso__legal-line">{company.emails.primary}</p>
+      <p class="flyer-verso__legal-line">
+        N° de Licence : {company.legal.license} — SIRET : {company.legal.siret} — APE : {company.legal.ape}
+      </p>
+    </footer>
+  </article>
+</PrintLayout>
+
+<style>
+  /* ===================================================================
+     RECTO — cover page
+     =================================================================== */
+  .flyer-recto {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--color-bg-warm);
+  }
+
+  .flyer-recto__header {
+    text-align: center;
+    padding: 18mm 15mm 10mm;
+  }
+
+  .flyer-recto__logo {
+    display: block;
+    height: 28mm;
+    width: auto;
+    margin: 0 auto 8mm;
+  }
+
+  .flyer-recto__label {
+    font-family: var(--font-family);
+    font-size: 11pt;
+    color: var(--color-secondary);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-weight: var(--weight-bold);
+    margin: 0 0 5mm;
+  }
+
+  .flyer-recto__title {
+    font-family: var(--font-family);
+    font-style: italic;
+    font-weight: var(--weight-normal);
+    color: var(--color-primary);
+    font-size: 56pt;
+    line-height: 1;
+    margin: 0;
+    letter-spacing: -0.01em;
+  }
+
+  .flyer-recto__banner {
+    margin: 0;
+    padding: 0;
+    flex: 1 1 auto;
+    position: relative;
+    overflow: hidden;
+    min-height: 0;
+  }
+
+  .flyer-recto__banner img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+
+  .flyer-recto__footer {
+    background-color: var(--color-bg-white);
+    padding: 12mm 15mm;
+    text-align: center;
+  }
+
+  .flyer-recto__tagline {
+    font-family: var(--font-family);
+    font-size: 18pt;
+    color: var(--color-primary);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-weight: var(--weight-bold);
+    margin: 0 0 3mm;
+  }
+
+  .flyer-recto__duo {
+    font-family: var(--font-family);
+    font-style: italic;
+    font-size: 13pt;
+    color: var(--color-secondary);
+    margin: 0;
+    letter-spacing: 1px;
+  }
+
+  /* ===================================================================
+     VERSO — text page
+     =================================================================== */
+  .flyer-verso {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--color-bg-warm);
+  }
+
+  .flyer-verso__header {
+    text-align: center;
+    padding: 14mm 20mm 8mm;
+  }
+
+  .flyer-verso__title {
+    font-family: var(--font-family);
+    font-style: italic;
+    font-weight: var(--weight-normal);
+    color: var(--color-primary);
+    font-size: 36pt;
+    line-height: 1.05;
+    margin: 0 0 5mm;
+  }
+
+  .flyer-verso__headline {
+    font-family: var(--font-family);
+    font-style: italic;
+    font-size: 15pt;
+    color: var(--color-secondary);
+    line-height: 1.35;
+    margin: 0;
+  }
+
+  .flyer-verso__headline-sub {
+    color: var(--color-primary);
+  }
+
+  .flyer-verso__body {
+    padding: 0 22mm;
+    max-width: 100%;
+    font-family: var(--font-family);
+    font-size: 11.5pt;
+    line-height: 1.55;
+    color: var(--color-text);
+    text-align: justify;
+    hyphens: auto;
+  }
+
+  .flyer-verso__pitch,
+  .flyer-verso__description,
+  .flyer-verso__duo {
+    margin: 0 0 4mm;
+  }
+
+  .flyer-verso__body :global(.editorial-quote) {
+    font-size: 12pt;
+    margin: 5mm 0;
+    color: var(--color-primary);
+    text-align: left;
+  }
+
+  .flyer-verso__duo {
+    margin-top: 6mm;
+    font-size: 11pt;
+    color: var(--color-text-light);
+  }
+
+  .flyer-verso :global(.divider) {
+    margin: 4mm 22mm;
+  }
+
+  /* Divider heart background must match the warm page bg, not white default */
+  .flyer-verso :global(.divider__heart) {
+    background-color: var(--color-bg-warm);
+  }
+
+  .flyer-verso__credits {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8mm 12mm;
+    padding: 4mm 22mm 8mm;
+    font-family: var(--font-family);
+    font-size: 10pt;
+    line-height: 1.45;
+    color: var(--color-text);
+  }
+
+  .flyer-verso__credits-col p {
+    margin: 0 0 3mm;
+  }
+
+  .flyer-verso__credits-col strong {
+    color: var(--color-secondary);
+    font-size: 8.5pt;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-weight: var(--weight-bold);
+  }
+
+  .flyer-verso__legal {
+    margin-top: auto;
+    background-color: var(--color-bg-dark);
+    color: var(--color-text-on-dark);
+    padding: 6mm 15mm;
+    text-align: center;
+    border-top: 3px solid var(--color-secondary);
+  }
+
+  .flyer-verso__legal-line {
+    font-family: var(--font-family);
+    font-size: 8pt;
+    margin: 0 0 1mm;
+    color: #aaaaaa;
+    line-height: 1.45;
+  }
+</style>

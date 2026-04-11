@@ -1,0 +1,109 @@
+---
+interface Props {
+  name: string;
+  role: string;
+  tagline?: string;
+  bio: string;
+  photo?: string;
+}
+const { name, role, tagline, bio, photo } = Astro.props;
+
+// text-only rendering when photo is not provided — avoids the "big placeholder
+// avatar square" problem that was visually jarring. Matches the old site's
+// text-only bio cards on the compagnie page.
+const hasPhoto = Boolean(photo);
+---
+
+<article class={`artist-card ${hasPhoto ? 'artist-card--with-photo' : 'artist-card--text-only'}`}>
+  {hasPhoto && (
+    <div class="artist-card__photo-wrapper">
+      <img src={photo} alt={name} class="artist-card__photo" loading="lazy" />
+    </div>
+  )}
+  <div class="artist-card__body">
+    <h3 class="artist-card__name">{name}</h3>
+    {tagline && <p class="artist-card__tagline">{tagline}</p>}
+    <p class="artist-card__role">{role}</p>
+    <p class="artist-card__bio">{bio}</p>
+  </div>
+</article>
+
+<style>
+  .artist-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+  }
+
+  /* Text-only variant — card on white bg for contrast on warm sections */
+  .artist-card--text-only {
+    background-color: var(--color-bg-white);
+    border-radius: var(--radius-lg);
+    padding: var(--space-8);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .artist-card__photo-wrapper {
+    width: 100%;
+    max-width: 280px;
+  }
+
+  .artist-card__photo {
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-md);
+    display: block;
+  }
+
+  .artist-card__name {
+    font-family: var(--font-family);
+    font-style: italic;
+    font-size: var(--text-xl);
+    color: var(--color-primary);
+    font-weight: var(--weight-normal);
+    line-height: var(--leading-tight);
+    margin: 0 0 var(--space-2);
+  }
+
+  .artist-card__tagline {
+    font-family: var(--font-family);
+    font-style: italic;
+    font-weight: var(--weight-bold);
+    font-size: var(--text-md);
+    color: var(--color-primary);
+    margin: 0 0 var(--space-3);
+  }
+
+  .artist-card__role {
+    font-family: var(--font-family);
+    font-size: var(--text-xs);
+    color: var(--color-secondary);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    font-weight: var(--weight-bold);
+    margin: 0 0 var(--space-4);
+  }
+
+  .artist-card__bio {
+    font-family: var(--font-family);
+    font-size: var(--text-base);
+    color: var(--color-text);
+    line-height: var(--leading-relaxed);
+    margin: 0;
+    white-space: pre-line;
+  }
+
+  @media (min-width: 640px) {
+    .artist-card--with-photo {
+      flex-direction: row;
+      align-items: flex-start;
+      gap: var(--space-8);
+    }
+    .artist-card--with-photo .artist-card__photo-wrapper {
+      flex-shrink: 0;
+    }
+    .artist-card--with-photo .artist-card__body {
+      flex: 1;
+    }
+  }
+</style>

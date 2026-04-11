@@ -1,0 +1,757 @@
+---
+import PrintLayout from '../../layouts/PrintLayout.astro';
+import GradientBar from '../../components/ui/GradientBar.astro';
+import Divider from '../../components/ui/Divider.astro';
+import HeartMotif from '../../components/ui/HeartMotif.astro';
+import Pullquote from '../../components/ui/Pullquote.astro';
+import IconText from '../../components/ui/IconText.astro';
+import { show } from '../../content/show';
+import { company } from '../../content/company';
+import { artists, creativeTeam } from '../../content/artists';
+
+const base = import.meta.env.BASE_URL;
+const fullAddress = `${company.address.street} - ${company.address.zipcode} ${company.address.city}`;
+
+// Technical sheet items (fed to custom layout, not TechnicalSheet component
+// since the print layout uses different spacing)
+const technicalItems = [
+  { label: 'Durée', value: show.technicalSheet.duration },
+  { label: 'Type de spectacle', value: show.technicalSheet.type },
+  { label: 'Public', value: show.technicalSheet.audience },
+  { label: 'Espace scénique', value: show.technicalSheet.stage },
+  { label: 'Sur le plateau', value: show.technicalSheet.onStage },
+  { label: 'Régie', value: show.technicalSheet.lighting },
+  { label: 'Tarif', value: show.technicalSheet.pricing },
+];
+---
+
+<PrintLayout title={`${show.title} — Dossier A4`}>
+  <!--
+    =====================================================================
+    PAGE 1 — COUVERTURE
+    =====================================================================
+  -->
+  <article class="print-page dossier-cover">
+    <GradientBar height="5px" />
+
+    <div class="dossier-cover__inner">
+      <img
+        src={`${base}logo/LOGO-COULEUR.png`}
+        alt="Cie Fusibles et Dentelles"
+        class="dossier-cover__logo"
+      />
+
+      <div class="dossier-cover__hearts">
+        <HeartMotif size="28px" />
+        <HeartMotif size="28px" />
+      </div>
+
+      <h1 class="dossier-cover__title">{show.title}</h1>
+      <p class="dossier-cover__tagline">{show.subtitle}</p>
+
+      <figure class="dossier-cover__photo">
+        <img
+          src={`${base}images/PaysageFD.jpeg`}
+          alt={`${show.title} — paysage du chemin`}
+        />
+      </figure>
+
+      <p class="dossier-cover__quote">{show.tagline}</p>
+    </div>
+  </article>
+
+  <!--
+    =====================================================================
+    PAGE 2 — ON VOUS FAIT MARCHER / CHANTER
+    Editorial layout with staircase text effect
+    =====================================================================
+  -->
+  <article class="print-page dossier-concept">
+    <GradientBar height="5px" />
+
+    <div class="dossier-concept__inner">
+      <section class="concept-block">
+        <h2 class="concept-block__title">{show.concept.walk.title}</h2>
+        <div class="concept-block__staircase">
+          {show.concept.walk.lines.map((line, i) => (
+            <p class="concept-block__line" style={`padding-left: ${i * 12}mm`}>{line}</p>
+          ))}
+        </div>
+      </section>
+
+      <Divider />
+
+      <section class="concept-block">
+        <h2 class="concept-block__title">{show.concept.sing.title}</h2>
+        <p class="concept-block__text">{show.concept.sing.text}</p>
+      </section>
+
+      <div class="dossier-concept__motif">
+        <HeartMotif size="32px" />
+        <HeartMotif size="40px" />
+      </div>
+    </div>
+  </article>
+
+  <!--
+    =====================================================================
+    PAGE 3 — LE SPECTACLE
+    =====================================================================
+  -->
+  <article class="print-page dossier-spectacle">
+    <GradientBar height="5px" />
+
+    <div class="dossier-spectacle__inner">
+      <header class="section-header">
+        <p class="section-header__label">Le spectacle</p>
+        <h2 class="section-header__title">{show.headline}</h2>
+        <p class="section-header__subtitle">{show.headlineContd}</p>
+      </header>
+
+      <section class="dossier-spectacle__body">
+        <p>Dans ce spectacle, vous partagez un bout de chemin avec <strong>Gabrielle</strong> et <strong>Juan</strong>.</p>
+
+        <p><strong>Gabrielle</strong> est une quinquagénaire phobique et insomniaque qui s'est mis en tête de faire Compostelle pour dépasser ses peurs et retrouver le sommeil.</p>
+
+        <p><strong>Juan</strong> est un musicien libre et insouciant qui va croiser la route de Gabrielle et la mettre face à ses limites bien malgré lui.</p>
+
+        <p><em>{show.title}</em> raconte le chemin de toutes celles et ceux qui se retrouvent à un carrefour de leur vie et décident de faire marcher leurs pieds plutôt que leur tête.</p>
+
+        <p>{show.description}</p>
+
+        <p class="dossier-spectacle__highlight">1h20 de chansons, de show et de kilomètres.</p>
+      </section>
+
+      <div class="dossier-spectacle__teaser">
+        <p class="dossier-spectacle__teaser-label">Pour voir notre teaser :</p>
+        <p class="dossier-spectacle__teaser-url">{show.videos.teaser}</p>
+      </div>
+    </div>
+  </article>
+
+  <!--
+    =====================================================================
+    PAGE 4 — LE DUO FUSIBLES & DENTELLES
+    =====================================================================
+  -->
+  <article class="print-page dossier-duo">
+    <GradientBar height="5px" />
+
+    <div class="dossier-duo__inner">
+      <header class="section-header">
+        <p class="section-header__label">Le duo</p>
+        <h2 class="section-header__title">Fusibles &amp; Dentelles</h2>
+        <p class="section-header__subtitle">C'est qui ?</p>
+      </header>
+
+      <p class="dossier-duo__intro">
+        Fusibles &amp; Dentelles, c'est avant tout le duo formé par la comédienne et
+        chanteuse <strong>Elisabeth von Buxhoeveden</strong> et par le musicien et
+        comédien <strong>Jean-Marc Miralles</strong>. Les deux complices ont actuellement
+        deux spectacles à leur actif, <em>La face cachée de la lune de miel</em> et
+        <em>{show.title}</em>.
+      </p>
+
+      <div class="dossier-duo__cards">
+        {artists.map((artist) => (
+          <div class="dossier-duo__card">
+            <h3 class="dossier-duo__card-name">{artist.name}</h3>
+            <p class="dossier-duo__card-tagline">{artist.tagline}</p>
+            <p class="dossier-duo__card-bio">{artist.bio}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </article>
+
+  <!--
+    =====================================================================
+    PAGE 5 — NOTE D'INTENTION
+    =====================================================================
+  -->
+  <article class="print-page dossier-intention">
+    <GradientBar height="5px" />
+
+    <div class="dossier-intention__inner">
+      <header class="section-header">
+        <p class="section-header__label">Note d'intention</p>
+        <h2 class="section-header__title">Genèse du projet</h2>
+      </header>
+
+      <section class="dossier-intention__body">
+        <p><em>Fusibles &amp; Dentelles raconte :</em></p>
+
+        <p>« Ce projet est l'histoire d'une rencontre artistique entre Elisabeth von Buxhoeveden, Jean-Marc Miralles et Karine Darcos dont Elisabeth est le dénominateur commun. L'idée d'écrire des chansons à trois est née pendant le covid. Une première chanson écrite et composée à distance les unes des autres a scellé l'envie de poursuivre l'expérience autour d'une même table.</p>
+
+        <p>Nous avons commencé à nous voir régulièrement, au début pour le seul plaisir de voir émerger d'autres textes et d'autres musiques. Nous avons des univers musicaux très différents : Jean-Marc, c'est le blues, la musique anglo-saxonne dans sa plus pure expression, Elisabeth, c'est le classique et le lyrique d'un côté, la pop chanson à texte de l'autre, Karine, c'est plutôt la pop rock. Mais un univers nous rassemble : la littérature et l'amour des mots.</p>
+
+        <p>Lorsqu'Elisabeth est rentrée de son pèlerinage à Compostelle avec une idée concrète de spectacle en tête, nous y avons vu l'occasion parfaite de marier nos trois univers. Nous nous sommes isolés à plusieurs reprises pendant plusieurs jours pour faire émerger un spectacle alliant musique et théâtre.</p>
+
+        <p>Nous avons alors fait appel à <strong>Maud Landau</strong> (comédienne, metteuse en scène, fondatrice de la compagnie <em>La Libellule</em>) pour un travail de plateau plus approfondi. Il en est ressorti un spectacle véritablement bi-disciplinaire, qui dépasse le tour de chant pour intégrer pleinement le théâtre.</p>
+
+        <p>Puis nous avons remis l'ouvrage au métier pour trouver une articulation entre musique et théâtre qui soit comme une respiration : naturelle et authentique. »</p>
+      </section>
+
+      <Divider />
+
+      <Pullquote>{show.conclusionQuote}</Pullquote>
+    </div>
+  </article>
+
+  <!--
+    =====================================================================
+    PAGE 6 — FICHE TECHNIQUE
+    =====================================================================
+  -->
+  <article class="print-page dossier-technical">
+    <GradientBar height="5px" />
+
+    <div class="dossier-technical__inner">
+      <header class="section-header">
+        <p class="section-header__label">Informations pratiques</p>
+        <h2 class="section-header__title">Fiche technique</h2>
+        <p class="section-header__subtitle">
+          Quelques données essentielles pour ne pas débarquer la fleur au fusible !
+        </p>
+      </header>
+
+      <dl class="tech-list">
+        {technicalItems.map(({ label, value }) => (
+          <div class="tech-list__row">
+            <dt class="tech-list__label">{label}</dt>
+            <dd class="tech-list__value">{value}</dd>
+          </div>
+        ))}
+      </dl>
+
+      <Divider />
+
+      <section class="brigade">
+        <h3 class="brigade__title">Brigade de la dentelle</h3>
+        <ul class="brigade__list">
+          {creativeTeam.map(({ role, person }) => (
+            <li class="brigade__item">
+              <p class="brigade__role">{role}</p>
+              <p class="brigade__person">{person}</p>
+            </li>
+          ))}
+        </ul>
+      </section>
+    </div>
+  </article>
+
+  <!--
+    =====================================================================
+    PAGE 7 — CONTACT
+    =====================================================================
+  -->
+  <article class="print-page dossier-contact">
+    <GradientBar height="5px" />
+
+    <div class="dossier-contact__inner">
+      <img
+        src={`${base}logo/LOGO-COULEUR.png`}
+        alt="Cie Fusibles et Dentelles"
+        class="dossier-contact__logo"
+      />
+
+      <header class="section-header section-header--center">
+        <p class="section-header__label">Contact</p>
+        <h2 class="section-header__title">Parlons de votre projet</h2>
+      </header>
+
+      <div class="dossier-contact__grid">
+        <section class="contact-block">
+          <h3 class="contact-block__title">Nous écrire</h3>
+          <p>{company.emails.primary}</p>
+          <p>{company.emails.communication}</p>
+        </section>
+
+        <section class="contact-block">
+          <h3 class="contact-block__title">Nous appeler</h3>
+          <p>{company.phone}</p>
+        </section>
+
+        <section class="contact-block">
+          <h3 class="contact-block__title">Nous suivre</h3>
+          <p>Facebook : {company.social.facebookHandle}</p>
+          <p>Instagram : {company.social.instagramHandle}</p>
+        </section>
+
+        <section class="contact-block">
+          <h3 class="contact-block__title">Nous rendre visite</h3>
+          <p>{company.address.street}</p>
+          <p>{company.address.zipcode} {company.address.city}</p>
+        </section>
+      </div>
+
+      <div class="dossier-contact__hearts">
+        <HeartMotif size="32px" />
+      </div>
+    </div>
+
+    <footer class="dossier-contact__legal">
+      <p class="dossier-contact__legal-line">
+        {company.name} — {fullAddress} — Tél. {company.phone}
+      </p>
+      <p class="dossier-contact__legal-line">
+        N° de Licence : {company.legal.license} — SIRET : {company.legal.siret} — APE : {company.legal.ape}
+      </p>
+    </footer>
+  </article>
+</PrintLayout>
+
+<style>
+  /* ===================================================================
+     SHARED — section header pattern
+     =================================================================== */
+  .section-header {
+    margin-bottom: 10mm;
+  }
+  .section-header--center {
+    text-align: center;
+  }
+  .section-header__label {
+    font-family: var(--font-family);
+    font-size: 10pt;
+    color: var(--color-secondary);
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    font-weight: var(--weight-bold);
+    margin: 0 0 3mm;
+  }
+  .section-header__title {
+    font-family: var(--font-family);
+    font-style: italic;
+    font-weight: var(--weight-normal);
+    color: var(--color-primary);
+    font-size: 32pt;
+    line-height: 1.05;
+    margin: 0 0 3mm;
+    letter-spacing: -0.005em;
+  }
+  .section-header__subtitle {
+    font-family: var(--font-family);
+    font-style: italic;
+    font-size: 13pt;
+    color: var(--color-secondary);
+    margin: 0;
+  }
+
+  /* Override divider heart background to match warm page */
+  .print-page :global(.divider__heart) {
+    background-color: var(--color-bg-warm);
+  }
+
+  /* ===================================================================
+     PAGE 1 — COVER
+     =================================================================== */
+  .dossier-cover {
+    display: flex;
+    flex-direction: column;
+  }
+  .dossier-cover__inner {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15mm 18mm 15mm;
+    text-align: center;
+  }
+  .dossier-cover__logo {
+    display: block;
+    height: 30mm;
+    width: auto;
+    margin: 0 auto 4mm;
+  }
+  .dossier-cover__hearts {
+    display: flex;
+    gap: 6mm;
+    justify-content: center;
+    margin-bottom: 6mm;
+    opacity: 0.9;
+  }
+  .dossier-cover__title {
+    font-family: var(--font-family);
+    font-style: italic;
+    font-weight: var(--weight-normal);
+    color: var(--color-primary);
+    font-size: 64pt;
+    line-height: 1;
+    margin: 0 0 3mm;
+    letter-spacing: -0.01em;
+  }
+  .dossier-cover__tagline {
+    font-family: var(--font-family);
+    font-size: 14pt;
+    color: var(--color-secondary);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-weight: var(--weight-bold);
+    margin: 0 0 10mm;
+  }
+  .dossier-cover__photo {
+    width: 100%;
+    height: 100mm;
+    position: relative;
+    overflow: hidden;
+    border-radius: 2mm;
+    margin: 0 0 8mm;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  }
+  .dossier-cover__photo img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+  .dossier-cover__quote {
+    font-family: var(--font-family);
+    font-style: italic;
+    font-size: 12pt;
+    color: var(--color-text);
+    max-width: 140mm;
+    margin: 0 auto;
+    line-height: 1.5;
+  }
+
+  /* ===================================================================
+     PAGE 2 — CONCEPT
+     =================================================================== */
+  .dossier-concept {
+    display: flex;
+    flex-direction: column;
+  }
+  .dossier-concept__inner {
+    flex: 1;
+    padding: 20mm 22mm;
+    display: flex;
+    flex-direction: column;
+    gap: 10mm;
+  }
+  .concept-block {
+    display: flex;
+    flex-direction: column;
+    gap: 6mm;
+  }
+  .concept-block__title {
+    font-family: var(--font-family);
+    font-style: italic;
+    font-weight: var(--weight-normal);
+    color: var(--color-primary);
+    font-size: 28pt;
+    line-height: 1.1;
+    margin: 0;
+  }
+  .concept-block__staircase {
+    display: flex;
+    flex-direction: column;
+    gap: 2mm;
+  }
+  .concept-block__line {
+    font-family: var(--font-family);
+    font-size: 14pt;
+    color: var(--color-text);
+    margin: 0;
+    font-style: italic;
+    line-height: 1.3;
+  }
+  .concept-block__text {
+    font-family: var(--font-family);
+    font-size: 13pt;
+    color: var(--color-text);
+    margin: 0;
+    max-width: 140mm;
+    line-height: 1.55;
+  }
+  .dossier-concept__motif {
+    margin-top: auto;
+    display: flex;
+    gap: 6mm;
+    justify-content: flex-end;
+    opacity: 0.85;
+  }
+
+  /* ===================================================================
+     PAGE 3 — LE SPECTACLE
+     =================================================================== */
+  .dossier-spectacle {
+    display: flex;
+    flex-direction: column;
+  }
+  .dossier-spectacle__inner {
+    flex: 1;
+    padding: 18mm 22mm;
+    display: flex;
+    flex-direction: column;
+  }
+  .dossier-spectacle__body {
+    font-family: var(--font-family);
+    font-size: 12pt;
+    color: var(--color-text);
+    line-height: 1.6;
+    text-align: justify;
+    hyphens: auto;
+    max-width: 160mm;
+  }
+  .dossier-spectacle__body p {
+    margin: 0 0 4mm;
+  }
+  .dossier-spectacle__highlight {
+    font-style: italic;
+    color: var(--color-primary);
+    font-size: 13pt;
+    margin-top: 6mm !important;
+  }
+  .dossier-spectacle__teaser {
+    margin-top: auto;
+    padding-top: 10mm;
+    border-top: 1px solid var(--color-border);
+  }
+  .dossier-spectacle__teaser-label {
+    font-family: var(--font-family);
+    font-size: 10pt;
+    color: var(--color-secondary);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: var(--weight-bold);
+    margin: 0 0 2mm;
+  }
+  .dossier-spectacle__teaser-url {
+    font-family: var(--font-family);
+    font-size: 11pt;
+    color: var(--color-primary);
+    margin: 0;
+    word-break: break-all;
+  }
+
+  /* ===================================================================
+     PAGE 4 — LE DUO
+     =================================================================== */
+  .dossier-duo {
+    display: flex;
+    flex-direction: column;
+  }
+  .dossier-duo__inner {
+    flex: 1;
+    padding: 18mm 20mm;
+  }
+  .dossier-duo__intro {
+    font-family: var(--font-family);
+    font-size: 12pt;
+    color: var(--color-text);
+    line-height: 1.55;
+    text-align: justify;
+    margin: 0 0 10mm;
+    max-width: 165mm;
+  }
+  .dossier-duo__cards {
+    display: flex;
+    flex-direction: column;
+    gap: 8mm;
+  }
+  .dossier-duo__card {
+    padding: 6mm 8mm;
+    background-color: var(--color-bg-white);
+    border-radius: 3mm;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  }
+  .dossier-duo__card-name {
+    font-family: var(--font-family);
+    font-style: italic;
+    font-weight: var(--weight-normal);
+    color: var(--color-primary);
+    font-size: 18pt;
+    line-height: 1.1;
+    margin: 0 0 2mm;
+  }
+  .dossier-duo__card-tagline {
+    font-family: var(--font-family);
+    font-style: italic;
+    font-size: 11pt;
+    color: var(--color-secondary);
+    font-weight: var(--weight-bold);
+    margin: 0 0 3mm;
+  }
+  .dossier-duo__card-bio {
+    font-family: var(--font-family);
+    font-size: 10.5pt;
+    color: var(--color-text);
+    line-height: 1.5;
+    margin: 0;
+    white-space: pre-line;
+  }
+
+  /* ===================================================================
+     PAGE 5 — NOTE D'INTENTION
+     =================================================================== */
+  .dossier-intention {
+    display: flex;
+    flex-direction: column;
+  }
+  .dossier-intention__inner {
+    flex: 1;
+    padding: 18mm 22mm;
+    display: flex;
+    flex-direction: column;
+  }
+  .dossier-intention__body {
+    font-family: var(--font-family);
+    font-size: 11pt;
+    color: var(--color-text);
+    line-height: 1.6;
+    text-align: justify;
+    hyphens: auto;
+    max-width: 160mm;
+  }
+  .dossier-intention__body p {
+    margin: 0 0 3.5mm;
+  }
+  .dossier-intention :global(.pullquote) {
+    margin-top: auto;
+  }
+
+  /* ===================================================================
+     PAGE 6 — FICHE TECHNIQUE
+     =================================================================== */
+  .dossier-technical {
+    display: flex;
+    flex-direction: column;
+  }
+  .dossier-technical__inner {
+    flex: 1;
+    padding: 18mm 22mm;
+    background-color: var(--color-bg-white);
+  }
+  .tech-list {
+    margin: 0 0 8mm;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .tech-list__row {
+    display: grid;
+    grid-template-columns: 55mm 1fr;
+    gap: 6mm;
+    padding: 4mm 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .tech-list__row:last-child {
+    border-bottom: none;
+  }
+  .tech-list__label {
+    font-family: var(--font-family);
+    font-size: 9.5pt;
+    color: var(--color-secondary);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-weight: var(--weight-bold);
+    margin: 0;
+  }
+  .tech-list__value {
+    font-family: var(--font-family);
+    font-size: 11pt;
+    color: var(--color-text);
+    margin: 0;
+    line-height: 1.45;
+  }
+  .brigade__title {
+    font-family: var(--font-family);
+    font-style: italic;
+    font-weight: var(--weight-normal);
+    color: var(--color-primary);
+    font-size: 18pt;
+    margin: 0 0 6mm;
+  }
+  .brigade__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 3mm;
+  }
+  .brigade__item {
+    padding: 2mm 0;
+  }
+  .brigade__role {
+    font-family: var(--font-family);
+    font-size: 9pt;
+    color: var(--color-secondary);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-weight: var(--weight-bold);
+    margin: 0 0 1mm;
+  }
+  .brigade__person {
+    font-family: var(--font-family);
+    font-size: 11pt;
+    color: var(--color-text);
+    margin: 0;
+  }
+
+  /* ===================================================================
+     PAGE 7 — CONTACT
+     =================================================================== */
+  .dossier-contact {
+    display: flex;
+    flex-direction: column;
+  }
+  .dossier-contact__inner {
+    flex: 1;
+    padding: 20mm 22mm 10mm;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .dossier-contact__logo {
+    display: block;
+    height: 28mm;
+    width: auto;
+    margin: 0 auto 10mm;
+  }
+  .dossier-contact__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10mm 14mm;
+    width: 100%;
+    max-width: 160mm;
+    margin: 8mm auto 0;
+  }
+  .contact-block__title {
+    font-family: var(--font-family);
+    font-size: 10pt;
+    color: var(--color-secondary);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: var(--weight-bold);
+    margin: 0 0 2mm;
+  }
+  .contact-block p {
+    font-family: var(--font-family);
+    font-size: 11pt;
+    color: var(--color-text);
+    margin: 0 0 1mm;
+    line-height: 1.5;
+  }
+  .dossier-contact__hearts {
+    margin-top: 10mm;
+  }
+  .dossier-contact__legal {
+    background-color: var(--color-bg-dark);
+    padding: 6mm 15mm;
+    text-align: center;
+    border-top: 3px solid var(--color-secondary);
+  }
+  .dossier-contact__legal-line {
+    font-family: var(--font-family);
+    font-size: 8pt;
+    margin: 0 0 1mm;
+    color: #aaaaaa;
+    line-height: 1.4;
+  }
+</style>

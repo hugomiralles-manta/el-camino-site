@@ -1,0 +1,62 @@
+---
+interface Props {
+  leftLabel: string;
+  leftText: string;
+  rightLabel: string;
+  rightText: string;
+}
+const { leftLabel, leftText, rightLabel, rightText } = Astro.props;
+---
+<div class="two-col-info">
+  <div class="two-col-info__col">
+    <p class="section-label">{leftLabel}</p>
+    <p class="two-col-info__text">{leftText}</p>
+  </div>
+  <div class="two-col-info__divider" aria-hidden="true"></div>
+  <div class="two-col-info__col">
+    <p class="section-label">{rightLabel}</p>
+    <p class="two-col-info__text">{rightText}</p>
+  </div>
+</div>
+
+<style>
+  .two-col-info {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 0;
+    width: 100%;
+  }
+  .two-col-info__col {
+    flex: 0 0 48%;
+    width: 48%;
+  }
+  .two-col-info__divider {
+    flex: 0 0 4%;
+    width: 4%;
+    align-self: stretch;
+    border-left: 1px solid var(--color-border);
+    margin: 0 0 0 var(--space-4);
+  }
+  .two-col-info__text {
+    font-family: var(--font-family);
+    font-size: var(--text-base);
+    color: var(--color-text);
+    line-height: var(--leading-relaxed);
+    margin: 0;
+  }
+
+  @media (max-width: 640px) {
+    .two-col-info {
+      flex-direction: column;
+      gap: var(--space-6);
+    }
+    .two-col-info__col {
+      flex: none;
+      width: 100%;
+    }
+    .two-col-info__divider {
+      display: none;
+    }
+  }
+</style>

@@ -1,0 +1,288 @@
+---
+import SectionLabel from '../ui/SectionLabel.astro';
+import EditorialQuote from '../ui/EditorialQuote.astro';
+
+interface Props {
+  label: string;
+  title: string;
+  subtitle?: string;
+  tagline?: string;
+  banner?: string;
+  bannerAlt?: string;
+  logo?: string;
+  logoAlt?: string;
+  variant?: 'editorial' | 'cinematic';
+  imageMode?: 'banner' | 'fullbleed';
+  heroSize?: 'full' | 'compact';
+}
+
+const {
+  label,
+  title,
+  subtitle,
+  tagline,
+  banner,
+  bannerAlt = '',
+  logo,
+  logoAlt = '',
+  variant = 'editorial',
+  imageMode = 'banner',
+  heroSize = 'full',
+} = Astro.props;
+---
+
+{variant === 'cinematic' ? (
+  <section
+    class={`page-hero page-hero--cinematic page-hero--${heroSize}`}
+    style={banner ? `background-image: url('${banner}')` : undefined}
+  >
+    <div class="page-hero__overlay"></div>
+    <div class="page-hero__cinematic-content">
+      {logo && (
+        <img src={logo} alt={logoAlt} class="page-hero__logo" />
+      )}
+      <h1 class="page-hero__title page-hero__title--cinematic">{title}</h1>
+      {subtitle && <p class="page-hero__subtitle page-hero__subtitle--cinematic">{subtitle}</p>}
+      <p class="page-hero__label-cinematic">{label}</p>
+      {tagline && <p class="page-hero__tagline-cinematic">{tagline}</p>}
+      <slot />
+    </div>
+    <div class="page-hero__scroll-indicator" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="currentColor" width="32" height="32">
+        <path d="M7 10l5 5 5-5z"/>
+      </svg>
+    </div>
+  </section>
+) : (
+  <section class={`page-hero page-hero--editorial page-hero--${heroSize}`}>
+    <SectionLabel>{label}</SectionLabel>
+    <h1 class="heading-editorial page-hero__title">{title}</h1>
+    {subtitle && <p class="page-hero__subtitle">{subtitle}</p>}
+    {tagline && <EditorialQuote>{tagline}</EditorialQuote>}
+    <slot />
+    {banner && heroSize !== 'compact' && (
+      <img
+        src={banner}
+        alt={bannerAlt}
+        class={`page-hero__banner${imageMode === 'fullbleed' ? ' page-hero__banner--fullbleed' : ''}`}
+      />
+    )}
+  </section>
+)}
+
+<style>
+  /* ---- Base ---------------------------------------------------------------- */
+  .page-hero {
+    padding: var(--space-10) var(--space-10) var(--space-5);
+    max-width: var(--width-page);
+    margin: 0 auto;
+  }
+
+  .page-hero--compact {
+    padding: var(--space-6) var(--space-10) var(--space-4);
+  }
+
+  /* ---- Editorial variant -------------------------------------------------- */
+  .page-hero--editorial .page-hero__title {
+    font-size: var(--text-2xl);
+    margin-top: var(--space-4);
+  }
+
+  @media (min-width: 768px) {
+    .page-hero--editorial.page-hero--full .page-hero__title {
+      font-size: var(--text-3xl);
+    }
+  }
+
+  .page-hero__subtitle {
+    font-family: var(--font-family);
+    font-size: var(--text-sm);
+    color: var(--color-secondary);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    margin: var(--space-2) 0 var(--space-5);
+  }
+
+  /* Banner image (editorial mode) */
+  .page-hero__banner {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-md);
+    margin-top: var(--space-5);
+  }
+
+  .page-hero__banner--fullbleed {
+    border-radius: 0;
+    margin-left: calc(-1 * var(--space-10));
+    width: calc(100% + 2 * var(--space-10));
+  }
+
+  /* ---- Cinematic variant -------------------------------------------------- */
+  .page-hero--cinematic {
+    position: relative;
+    min-height: 88vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 0;
+    max-width: 100%;
+  }
+
+  .page-hero--cinematic.page-hero--compact {
+    min-height: 50vh;
+  }
+
+  /*
+   * Dark warm overlay — stronger than v1.0 "washed-out" variant.
+   * Combines a dark base (visibility) with a warm crimson tint
+   * (brand coherence + emotional warmth). No pure black.
+   */
+  .page-hero__overlay {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(135deg, rgba(30, 15, 25, 0.55), rgba(191, 39, 80, 0.35)),
+      linear-gradient(to bottom, rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.35));
+    pointer-events: none;
+  }
+
+  .page-hero__cinematic-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    color: #ffffff;
+    padding: var(--space-16) var(--space-10);
+    max-width: var(--width-page);
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  /* Logo above title (restored from old version) */
+  .page-hero__logo {
+    display: block;
+    height: 72px;
+    width: auto;
+    margin: 0 auto var(--space-6);
+    opacity: 0.95;
+  }
+
+  @media (min-width: 768px) {
+    .page-hero__logo {
+      height: 96px;
+    }
+  }
+
+  /* Cinematic title — BIG dramatic presence */
+  .page-hero__title--cinematic {
+    font-family: var(--font-family);
+    font-style: italic;
+    font-weight: var(--weight-normal);
+    color: #ffffff;
+    font-size: var(--text-3xl);
+    line-height: var(--leading-tight);
+    margin: 0 0 var(--space-4);
+    text-shadow: 0 4px 16px rgba(0, 0, 0, 0.55);
+    letter-spacing: -0.01em;
+  }
+
+  @media (min-width: 768px) {
+    .page-hero--cinematic.page-hero--full .page-hero__title--cinematic {
+      font-size: var(--text-4xl);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .page-hero--cinematic.page-hero--full .page-hero__title--cinematic {
+      font-size: var(--text-5xl);
+    }
+  }
+
+  /* Cinematic subtitle — clearer hierarchy */
+  .page-hero__subtitle--cinematic {
+    font-family: var(--font-family);
+    font-size: var(--text-md);
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wider);
+    margin: 0 0 var(--space-3);
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    font-weight: var(--weight-bold);
+  }
+
+  @media (min-width: 768px) {
+    .page-hero__subtitle--cinematic {
+      font-size: var(--text-lg);
+    }
+  }
+
+  /* Cinematic label — smaller, accent teal */
+  .page-hero__label-cinematic {
+    font-family: var(--font-family);
+    font-size: var(--text-xs);
+    color: var(--color-secondary);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wider);
+    font-weight: var(--weight-bold);
+    margin: 0 0 var(--space-8);
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+  }
+
+  /* Cinematic tagline — larger italic */
+  .page-hero__tagline-cinematic {
+    font-family: var(--font-family);
+    font-style: italic;
+    font-size: var(--text-lg);
+    color: rgba(255, 255, 255, 0.95);
+    max-width: 640px;
+    margin: 0 auto var(--space-10);
+    line-height: var(--leading-relaxed);
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  }
+
+  @media (min-width: 768px) {
+    .page-hero__tagline-cinematic {
+      font-size: var(--text-lead);
+    }
+  }
+
+  /* Scroll indicator (restored from old version) */
+  .page-hero__scroll-indicator {
+    position: absolute;
+    bottom: var(--space-8);
+    left: 50%;
+    transform: translateX(-50%);
+    color: #ffffff;
+    opacity: 0.7;
+    animation: bounce 2s infinite;
+    z-index: 1;
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(-8px); }
+  }
+
+  /* Responsive padding */
+  @media (max-width: 640px) {
+    .page-hero {
+      padding: var(--space-6) var(--space-5) var(--space-4);
+    }
+    .page-hero__cinematic-content {
+      padding: var(--space-12) var(--space-5);
+    }
+    .page-hero--cinematic {
+      min-height: 100vh;
+    }
+    .page-hero__banner--fullbleed {
+      margin-left: calc(-1 * var(--space-5));
+      width: calc(100% + 2 * var(--space-5));
+    }
+    .page-hero__logo {
+      height: 64px;
+    }
+  }
+</style>
