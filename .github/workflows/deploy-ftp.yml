@@ -1,0 +1,100 @@
+name: Deploy to FTP
+
+# Manual-only for safety. Trigger via:
+#   gh workflow run deploy-ftp.yml -f mode=preview
+#   gh workflow run deploy-ftp.yml -f mode=root
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'Deployment mode'
+        type: choice
+        options:
+          - preview
+          - root
+        default: preview
+      dry_run:
+        description: 'Dry run (list changes without uploading)'
+        type: boolean
+        default: false
+
+concurrency:
+  group: ftp-deploy-${{ inputs.mode }}
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Set Astro base + site for ${{ inputs.mode }}
+        id: config
+        run: |
+          if [ "${{ inputs.mode }}" = "preview" ]; then
+            echo "astro_base=/preview/" >> "$GITHUB_OUTPUT"
+            echo "server_dir=/preview/" >> "$GITHUB_OUTPUT"
+          else
+            echo "astro_base=/" >> "$GITHUB_OUTPUT"
+            echo "server_dir=/" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Build Astro
+        env:
+          ASTRO_BASE: ${{ steps.config.outputs.astro_base }}
+          ASTRO_SITE: http://fusiblesetdentelles.fr
+        run: |
+          npm run build
+          echo "--- dist tree ---"
+          find dist -maxdepth 2 -type f | head -30
+
+      - name: FTP Deploy
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USER }}
+          password: ${{ secrets.FTP_PASS }}
+          port: 21
+          protocol: ftps
+          security: loose     # accept shared-hosting TLS certs (Pure-FTPd)
+          local-dir: ./dist/
+          server-dir: ${{ steps.config.outputs.server_dir }}
+          dry-run: ${{ inputs.dry_run }}
+          log-level: standard
+          # Files to NEVER touch on the server (preserved for root mode;
+          # ignored in preview mode since /preview/ is its own dir).
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            .env*
+            logo-signature-fusiblesetdentelles.png
+            .well-known/**
+            .ftpquota
+            cgi-bin/**
+            .htaccess
+            dossier-FetD2022.pdf
+
+      - name: Deployment summary
+        if: always()
+        run: |
+          echo "### FTP Deployment Summary" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "- **Mode**: ${{ inputs.mode }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "- **Dry run**: ${{ inputs.dry_run }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "- **Astro base**: ${{ steps.config.outputs.astro_base }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "- **Remote dir**: ${{ steps.config.outputs.server_dir }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          if [ "${{ inputs.mode }}" = "preview" ]; then
+            echo "Preview URL: http://fusiblesetdentelles.fr/preview/" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "Production URL: http://fusiblesetdentelles.fr/" >> "$GITHUB_STEP_SUMMARY"
+          fi

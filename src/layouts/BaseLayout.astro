@@ -43,7 +43,7 @@ const imageURL = new URL(image.startsWith('/') ? image : `/${image}`, Astro.site
       no Google Fonts fetch needed. Single source of truth: --font-family in tokens.css.
     -->
 
-    <link rel="icon" type="image/png" href="/el-camino-site/logo/LOGO-COULEUR.png" />
+    <link rel="icon" type="image/png" href={`${import.meta.env.BASE_URL}logo/LOGO-COULEUR.png`} />
   </head>
   <body>
     <slot />
