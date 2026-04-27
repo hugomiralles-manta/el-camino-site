@@ -1,9 +1,9 @@
 name: Deploy to FTP
 
-# Manual-only for safety. Trigger via:
-#   gh workflow run deploy-ftp.yml -f mode=preview
-#   gh workflow run deploy-ftp.yml -f mode=root
+# Auto on push to main (mode=root). Manual via workflow_dispatch (preview or root).
 on:
+  push:
+    branches: [main]
   workflow_dispatch:
     inputs:
       mode:
@@ -19,7 +19,7 @@ on:
         default: false
 
 concurrency:
-  group: ftp-deploy-${{ inputs.mode }}
+  group: ftp-deploy-${{ github.event.inputs.mode || 'root' }}
   cancel-in-progress: false
 
 jobs:
@@ -36,10 +36,16 @@ jobs:
 
       - run: npm ci
 
-      - name: Set Astro base + site for ${{ inputs.mode }}
+      - name: Set Astro base + site
         id: config
+        env:
+          # push event → root, workflow_dispatch → user-chosen mode
+          MODE: ${{ github.event.inputs.mode || 'root' }}
+          DRY_RUN: ${{ github.event.inputs.dry_run || 'false' }}
         run: |
-          if [ "${{ inputs.mode }}" = "preview" ]; then
+          echo "mode=$MODE" >> "$GITHUB_OUTPUT"
+          echo "dry_run=$DRY_RUN" >> "$GITHUB_OUTPUT"
+          if [ "$MODE" = "preview" ]; then
             echo "astro_base=/preview/" >> "$GITHUB_OUTPUT"
             echo "server_dir=/preview/" >> "$GITHUB_OUTPUT"
           else
@@ -68,7 +74,7 @@ jobs:
           security: loose     # accept shared-hosting TLS certs (Pure-FTPd)
           local-dir: ./dist/
           server-dir: ${{ steps.config.outputs.server_dir }}
-          dry-run: ${{ inputs.dry_run }}
+          dry-run: ${{ steps.config.outputs.dry_run == 'true' }}
           log-level: standard
           # Files to NEVER touch on the server (preserved for root mode;
           # ignored in preview mode since /preview/ is its own dir).
@@ -89,12 +95,13 @@ jobs:
         run: |
           echo "### FTP Deployment Summary" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
-          echo "- **Mode**: ${{ inputs.mode }}" >> "$GITHUB_STEP_SUMMARY"
-          echo "- **Dry run**: ${{ inputs.dry_run }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "- **Trigger**: ${{ github.event_name }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "- **Mode**: ${{ steps.config.outputs.mode }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "- **Dry run**: ${{ steps.config.outputs.dry_run }}" >> "$GITHUB_STEP_SUMMARY"
           echo "- **Astro base**: ${{ steps.config.outputs.astro_base }}" >> "$GITHUB_STEP_SUMMARY"
           echo "- **Remote dir**: ${{ steps.config.outputs.server_dir }}" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
-          if [ "${{ inputs.mode }}" = "preview" ]; then
+          if [ "${{ steps.config.outputs.mode }}" = "preview" ]; then
             echo "Preview URL: http://fusiblesetdentelles.fr/preview/" >> "$GITHUB_STEP_SUMMARY"
           else
             echo "Production URL: http://fusiblesetdentelles.fr/" >> "$GITHUB_STEP_SUMMARY"
