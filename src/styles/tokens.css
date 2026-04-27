@@ -33,7 +33,16 @@
   --color-text-light:     #555555;   /* Secondary text */
   --color-text-muted:     #999999;   /* Labels, metadata */
   --color-text-on-dark:   #aaaaaa;   /* Footer text */
+  --color-text-inverse:   #ffffff;   /* White text on dark/photo backgrounds */
   --color-border:         #e0e0e0;   /* Separators */
+
+  /* ---- HERO PHOTO OVERLAYS (cinematic + crimson/teal heroes) ------------- */
+  /* Used to ensure WCAG AA contrast on photo backgrounds. Combine with text-shadow. */
+  --overlay-dark-top:     rgba(0, 0, 0, 0.30);
+  --overlay-dark-bottom:  rgba(0, 0, 0, 0.55);
+  --overlay-primary:      rgba(191, 39, 80, 0.50);   /* crimson tint — matches --color-primary */
+  --overlay-secondary:    rgba(94, 170, 186, 0.45);  /* teal tint — matches --color-secondary */
+  --overlay-shadow-deep:  rgba(30, 15, 25, 0.60);    /* dark warm base for overlay corner */
 
   /* ---- GRADIENTS --------------------------------------------------------- */
   --gradient-accent:      linear-gradient(to right, var(--color-secondary), var(--color-primary));

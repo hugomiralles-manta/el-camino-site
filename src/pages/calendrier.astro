@@ -4,16 +4,14 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import PageSection from '../components/layout/PageSection.astro';
 import Button from '../components/ui/Button.astro';
+import SectionLabel from '../components/ui/SectionLabel.astro';
+import { loadDates, formatDate } from '../lib/load-dates';
 
 const base = import.meta.env.BASE_URL;
 
-// Past dates — static data, could be moved to src/content/ in a future iteration
-// when more dates accumulate. Kept inline for now as it's a small array.
-const datesPassees = [
-  { date: '26.04.2024', lieu: 'Vendredis de la Chartreuse', ville: 'Molsheim (67)' },
-  { date: '14.02.2024', lieu: "L'Aronde", ville: 'Riedisheim (68)' },
-  { date: '28.01.2024', lieu: 'Foyer Sainte Geneviève', ville: 'Mulhouse (68)' },
-];
+// Build-time fetch from Google Sheet CSV (DATES_CSV_URL secret).
+// Throws if unreachable → build fails (intentional, see calendar-dynamic-spec).
+const { upcoming, past } = await loadDates();
 ---
 
 <BaseLayout
@@ -22,9 +20,15 @@ const datesPassees = [
 >
   <Header />
 
-  <!-- Hero compact -->
-  <section class="page-hero-compact">
+  <!-- Hero — crimson band with stage photo -->
+  <section
+    class="page-hero-compact"
+    style={`background-image: url('${base}images/scene/duo-en-spectacle.jpg')`}
+    aria-label="Le duo Fusibles & Dentelles en représentation"
+  >
+    <div class="page-hero-compact__overlay" aria-hidden="true"></div>
     <div class="page-hero-compact__inner">
+      <SectionLabel as="p" size="sm">Calendrier</SectionLabel>
       <h1 class="page-hero-compact__title">Le calendrier survolté</h1>
       <p class="page-hero-compact__subtitle">de Fusibles & Dentelles</p>
     </div>
@@ -32,31 +36,61 @@ const datesPassees = [
 
   <!-- Prochaines dates -->
   <PageSection title="Prochaines dates" background="warm">
-    <div class="upcoming-dates">
-      <p class="upcoming-dates__headline">Dates à venir... Restez connectés !</p>
-      <p class="upcoming-dates__subtext">
-        Vous souhaitez programmer El Camino dans votre structure ?
-      </p>
-      <Button href={`${base}contact/`} variant="primary">
-        Contactez-nous
-      </Button>
-    </div>
+    {upcoming.length > 0 ? (
+      <ul class="upcoming-list">
+        {upcoming.map(({ date, ville, lieu, heure, prix, lien_reservation }) => (
+          <li class="upcoming-list__item">
+            <div class="upcoming-list__date">
+              <span class="upcoming-list__date-text">{formatDate(date)}</span>
+              {heure && <span class="upcoming-list__time">{heure}</span>}
+            </div>
+            <div class="upcoming-list__info">
+              <p class="upcoming-list__venue">{lieu}</p>
+              <p class="upcoming-list__city">{ville}</p>
+              {prix && <p class="upcoming-list__price">{prix}</p>}
+            </div>
+            {lien_reservation && (
+              <a
+                href={lien_reservation}
+                class="upcoming-list__cta"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Réserver
+              </a>
+            )}
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <div class="upcoming-dates">
+        <p class="upcoming-dates__headline">Dates à venir... Restez connectés !</p>
+        <p class="upcoming-dates__subtext">
+          Vous souhaitez programmer El Camino dans votre structure ?
+        </p>
+        <Button href={`${base}contact/`} variant="primary">
+          Contactez-nous
+        </Button>
+      </div>
+    )}
   </PageSection>
 
   <!-- Dates passées -->
-  <PageSection title="Quelques dates passées" background="white">
-    <ul class="past-dates">
-      {datesPassees.map(({ date, lieu, ville }) => (
-        <li class="past-dates__item">
-          <div class="past-dates__info">
-            <p class="past-dates__venue">{lieu}</p>
-            <p class="past-dates__city">{ville}</p>
-          </div>
-          <p class="past-dates__date">{date}</p>
-        </li>
-      ))}
-    </ul>
-  </PageSection>
+  {past.length > 0 && (
+    <PageSection title="Quelques dates passées" background="white">
+      <ul class="past-dates">
+        {past.map(({ date, ville, lieu }) => (
+          <li class="past-dates__item">
+            <div class="past-dates__info">
+              <p class="past-dates__venue">{lieu}</p>
+              <p class="past-dates__city">{ville}</p>
+            </div>
+            <p class="past-dates__date">{formatDate(date)}</p>
+          </li>
+        ))}
+      </ul>
+    </PageSection>
+  )}
 
   <!-- CTA programmateur -->
   <section class="programmer-cta">
@@ -86,14 +120,37 @@ const datesPassees = [
 <style>
   /* ---- Hero compact ------------------------------------------------------- */
   .page-hero-compact {
+    position: relative;
     background-color: var(--color-primary);
-    color: #ffffff;
+    background-size: cover;
+    background-position: center 25%;
+    background-repeat: no-repeat;
+    color: var(--color-text-inverse);
     text-align: center;
     padding: var(--space-20) var(--space-5);
+    min-height: 50vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .page-hero-compact__overlay {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(135deg, var(--overlay-shadow-deep), var(--overlay-primary)),
+      linear-gradient(to bottom, var(--overlay-dark-top), var(--overlay-dark-bottom));
+    pointer-events: none;
   }
   .page-hero-compact__inner {
+    position: relative;
+    z-index: 1;
     max-width: 800px;
     margin: 0 auto;
+  }
+  /* WCAG AA — section label on dark photo bg needs full white + strong shadow */
+  .page-hero-compact__inner :global(.section-label) {
+    color: var(--color-text-inverse);
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
   }
   .page-hero-compact__title {
     font-family: var(--font-family);
@@ -101,7 +158,8 @@ const datesPassees = [
     font-weight: var(--weight-normal);
     font-size: var(--text-3xl);
     line-height: var(--leading-tight);
-    margin: 0 0 var(--space-3);
+    margin: var(--space-3) 0;
+    text-shadow: 0 4px 16px rgba(0, 0, 0, 0.55);
   }
   @media (min-width: 768px) {
     .page-hero-compact__title {
@@ -114,6 +172,7 @@ const datesPassees = [
     font-size: var(--text-lg);
     opacity: 0.95;
     margin: 0;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
   }
 
   /* ---- Upcoming dates block ----------------------------------------------- */
@@ -138,6 +197,96 @@ const datesPassees = [
     font-size: var(--text-sm);
     color: var(--color-text-light);
     margin: 0 0 var(--space-6);
+  }
+
+  /* ---- Upcoming dates list ------------------------------------------------ */
+  .upcoming-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 auto;
+    max-width: 720px;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+  .upcoming-list__item {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: var(--space-5);
+    padding: var(--space-5) var(--space-6);
+    background-color: var(--color-bg-white);
+    border: 2px solid var(--color-secondary);
+    border-radius: var(--radius-lg);
+  }
+  @media (max-width: 640px) {
+    .upcoming-list__item {
+      grid-template-columns: 1fr;
+      gap: var(--space-3);
+      text-align: center;
+    }
+  }
+  .upcoming-list__date {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 88px;
+  }
+  .upcoming-list__date-text {
+    font-family: var(--font-family);
+    font-size: var(--text-md);
+    font-weight: var(--weight-bold);
+    color: var(--color-primary);
+    font-variant-numeric: tabular-nums;
+    line-height: 1.2;
+  }
+  .upcoming-list__time {
+    font-family: var(--font-family);
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    margin-top: var(--space-1);
+  }
+  .upcoming-list__info {
+    text-align: left;
+  }
+  @media (max-width: 640px) {
+    .upcoming-list__info { text-align: center; }
+  }
+  .upcoming-list__venue {
+    font-family: var(--font-family);
+    font-size: var(--text-md);
+    font-weight: var(--weight-bold);
+    color: var(--color-text);
+    margin: 0;
+  }
+  .upcoming-list__city {
+    font-family: var(--font-family);
+    font-size: var(--text-sm);
+    color: var(--color-text-light);
+    margin: var(--space-1) 0 0;
+  }
+  .upcoming-list__price {
+    font-family: var(--font-family);
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    margin: var(--space-1) 0 0;
+    font-style: italic;
+  }
+  .upcoming-list__cta {
+    display: inline-block;
+    font-family: var(--font-family);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-bold);
+    padding: var(--space-3) var(--space-5);
+    border-radius: 9999px;
+    text-decoration: none;
+    background-color: var(--color-primary);
+    color: #ffffff;
+    transition: opacity 0.2s;
+    white-space: nowrap;
+  }
+  .upcoming-list__cta:hover {
+    opacity: 0.9;
   }
 
   /* ---- Past dates list ---------------------------------------------------- */

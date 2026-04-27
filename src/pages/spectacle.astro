@@ -29,11 +29,23 @@ const ficheItems = [
 <BaseLayout
   title={show.title}
   description={`${show.title} — ${show.subtitle}. ${show.description} Avec Elisabeth von Buxhoeveden et Jean-Marc Miralles.`}
+  image={`${base}images/scene/elisabeth-chant.jpg`}
 >
+  <link
+    slot="head"
+    rel="preload"
+    as="image"
+    href={`${base}images/scene/elisabeth-chant.jpg`}
+  />
   <Header />
 
-  <!-- Hero page — crimson band -->
-  <section class="spectacle-hero">
+  <!-- Hero page — crimson band with stage photo -->
+  <section
+    class="spectacle-hero"
+    style={`background-image: url('${base}images/scene/elisabeth-chant.jpg')`}
+    aria-label="Elisabeth von Buxhoeveden en représentation"
+  >
+    <div class="spectacle-hero__overlay" aria-hidden="true"></div>
     <div class="spectacle-hero__inner">
       <SectionLabel as="p" size="sm">{company.shortName}</SectionLabel>
       <h1 class="spectacle-hero__title">{show.title}</h1>
@@ -119,17 +131,37 @@ const ficheItems = [
 <style>
   /* ---- Hero --------------------------------------------------------------- */
   .spectacle-hero {
+    position: relative;
     background-color: var(--color-primary);
-    color: #ffffff;
+    background-size: cover;
+    background-position: center 30%;
+    background-repeat: no-repeat;
+    color: var(--color-text-inverse);
     text-align: center;
     padding: var(--space-20) var(--space-5);
+    min-height: 56vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .spectacle-hero__overlay {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(135deg, var(--overlay-shadow-deep), var(--overlay-primary)),
+      linear-gradient(to bottom, var(--overlay-dark-top), var(--overlay-dark-bottom));
+    pointer-events: none;
   }
   .spectacle-hero__inner {
+    position: relative;
+    z-index: 1;
     max-width: 800px;
     margin: 0 auto;
   }
+  /* WCAG AA — section label on dark photo bg needs full white + strong shadow */
   .spectacle-hero__inner :global(.section-label) {
-    color: rgba(255, 255, 255, 0.85);
+    color: var(--color-text-inverse);
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
   }
   .spectacle-hero__title {
     font-family: var(--font-family);
@@ -138,6 +170,7 @@ const ficheItems = [
     font-size: var(--text-3xl);
     line-height: var(--leading-tight);
     margin: var(--space-4) 0 var(--space-5);
+    text-shadow: 0 4px 16px rgba(0, 0, 0, 0.55);
   }
   @media (min-width: 768px) {
     .spectacle-hero__title {
@@ -150,6 +183,7 @@ const ficheItems = [
     opacity: 0.95;
     margin: 0;
     line-height: var(--leading-normal);
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
   }
 
   /* ---- Synopsis ----------------------------------------------------------- */

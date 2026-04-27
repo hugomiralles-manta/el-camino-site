@@ -1,0 +1,54 @@
+name: Refresh dates (cron)
+
+# Runs daily; computes a sha256 of the published CSV and triggers the
+# FTP deploy workflow only if the hash changed since last run.
+# Cache key includes the current hash → cache hit means "already seen this content".
+
+on:
+  schedule:
+    - cron: '0 6 * * *'   # 06:00 UTC = 07:00 winter / 08:00 summer Paris
+  workflow_dispatch:       # manual trigger for testing
+
+permissions:
+  actions: write           # required to call `gh workflow run` for deploy-ftp.yml
+  contents: read
+
+jobs:
+  check-and-trigger:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Compute current CSV hash
+        id: hash
+        env:
+          DATES_CSV_URL: ${{ secrets.DATES_CSV_URL }}
+        run: |
+          HASH=$(curl -fsSL "$DATES_CSV_URL" | sha256sum | awk '{print $1}')
+          echo "current=$HASH" >> "$GITHUB_OUTPUT"
+          echo "Hash: $HASH"
+
+      - name: Cache lookup by hash
+        id: cache
+        uses: actions/cache@v4
+        with:
+          path: .csv-hash-marker
+          key: dates-hash-${{ steps.hash.outputs.current }}
+
+      - name: Ensure marker exists for save
+        run: touch .csv-hash-marker
+
+      - name: Skip — no change detected
+        if: steps.cache.outputs.cache-hit == 'true'
+        run: |
+          echo "::notice::CSV hash unchanged — no rebuild needed"
+          echo "Hash: ${{ steps.hash.outputs.current }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "Status: **skipped** (no change)" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Trigger FTP deploy — change detected
+        if: steps.cache.outputs.cache-hit != 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "::notice::CSV hash changed — triggering deploy-ftp.yml (mode=root)"
+          gh workflow run deploy-ftp.yml -f mode=root --ref main
+          echo "Hash: ${{ steps.hash.outputs.current }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "Status: **deploy triggered**" >> "$GITHUB_STEP_SUMMARY"

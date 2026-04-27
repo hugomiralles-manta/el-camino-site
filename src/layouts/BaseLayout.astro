@@ -44,8 +44,12 @@ const imageURL = new URL(image.startsWith('/') ? image : `/${image}`, Astro.site
     -->
 
     <link rel="icon" type="image/png" href={`${import.meta.env.BASE_URL}logo/LOGO-COULEUR.png`} />
+
+    <slot name="head" />
   </head>
   <body>
-    <slot />
+    <main>
+      <slot />
+    </main>
   </body>
 </html>

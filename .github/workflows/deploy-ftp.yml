@@ -51,6 +51,7 @@ jobs:
         env:
           ASTRO_BASE: ${{ steps.config.outputs.astro_base }}
           ASTRO_SITE: http://fusiblesetdentelles.fr
+          DATES_CSV_URL: ${{ secrets.DATES_CSV_URL }}
         run: |
           npm run build
           echo "--- dist tree ---"

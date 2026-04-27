@@ -5,6 +5,8 @@ import Footer from '../components/Footer.astro';
 import VideoEmbed from '../components/VideoEmbed.astro';
 import PageSection from '../components/layout/PageSection.astro';
 import Card from '../components/ui/Card.astro';
+import EditorialQuote from '../components/ui/EditorialQuote.astro';
+import SectionLabel from '../components/ui/SectionLabel.astro';
 import ArtistCard from '../components/content/ArtistCard.astro';
 import { company } from '../content/company';
 import { artists } from '../content/artists';
@@ -41,9 +43,15 @@ const linkingThemes = [
 >
   <Header />
 
-  <!-- Hero compact teal band -->
-  <section class="company-hero">
+  <!-- Hero teal band with duo stage photo -->
+  <section
+    class="company-hero"
+    style={`background-image: url('${base}images/scene/duo-fusibles-dentelles.jpg')`}
+    aria-label="Le duo Fusibles & Dentelles sur scène"
+  >
+    <div class="company-hero__overlay" aria-hidden="true"></div>
     <div class="company-hero__inner">
+      <SectionLabel as="p" size="sm">La compagnie</SectionLabel>
       <h1 class="company-hero__title">Fusibles &amp; Dentelles</h1>
       <p class="company-hero__tagline">
         La compagnie qui sait changer son fusible d'épaule !
@@ -62,6 +70,30 @@ const linkingThemes = [
         Les deux complices ont actuellement deux spectacles à leur actif :
         <em>La face cachée de la lune de miel</em> et <em>El Camino</em>.
       </p>
+    </div>
+  </PageSection>
+
+  <!-- Ils en ont parlé — citations presse -->
+  <PageSection label="Ils en ont parlé" title="Échos de la presse" background="warm" align="center">
+    <div class="press-quotes">
+      <figure class="press-quote">
+        <EditorialQuote>
+          C'est à la fois du théâtre et de la chanson, coquin et pudique.
+        </EditorialQuote>
+        <figcaption class="press-quote__source">
+          <cite>DNA — Dernières Nouvelles d'Alsace</cite>, 18 octobre 2018
+        </figcaption>
+      </figure>
+      <figure class="press-quote">
+        <EditorialQuote>
+          Les numéros coquins, mêlant musique et humour, du guitariste Jean-Marc Miralles
+          et de la chanteuse Elisabeth von Buxhoeveden, de la Compagnie Fusibles et Dentelles,
+          ont littéralement conquis l'auditoire.
+        </EditorialQuote>
+        <figcaption class="press-quote__source">
+          <cite>L'Alsace</cite>, 24 août 2020
+        </figcaption>
+      </figure>
     </div>
   </PageSection>
 
@@ -147,6 +179,8 @@ const linkingThemes = [
       src={`${base}logo/LOGO-COULEUR.png`}
       alt={`Logo ${company.shortName}`}
       class="company-footer__logo"
+      width="280"
+      height="128"
       loading="lazy"
     />
     <p class="company-footer__legal">
@@ -161,14 +195,37 @@ const linkingThemes = [
 <style>
   /* ---- Hero --------------------------------------------------------------- */
   .company-hero {
+    position: relative;
     background-color: var(--color-secondary);
-    color: #ffffff;
+    background-size: cover;
+    background-position: center 25%;
+    background-repeat: no-repeat;
+    color: var(--color-text-inverse);
     text-align: center;
     padding: var(--space-20) var(--space-5);
+    min-height: 56vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .company-hero__overlay {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(135deg, var(--overlay-shadow-deep), var(--overlay-secondary)),
+      linear-gradient(to bottom, var(--overlay-dark-top), var(--overlay-dark-bottom));
+    pointer-events: none;
   }
   .company-hero__inner {
+    position: relative;
+    z-index: 1;
     max-width: 800px;
     margin: 0 auto;
+  }
+  /* WCAG AA — section label on dark photo bg needs full white + strong shadow */
+  .company-hero__inner :global(.section-label) {
+    color: var(--color-text-inverse);
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
   }
   .company-hero__title {
     font-family: var(--font-family);
@@ -176,7 +233,8 @@ const linkingThemes = [
     font-weight: var(--weight-normal);
     font-size: var(--text-3xl);
     line-height: var(--leading-tight);
-    margin: 0 0 var(--space-5);
+    margin: var(--space-3) 0 var(--space-5);
+    text-shadow: 0 4px 16px rgba(0, 0, 0, 0.55);
   }
   @media (min-width: 768px) {
     .company-hero__title {
@@ -189,6 +247,7 @@ const linkingThemes = [
     font-size: var(--text-lg);
     opacity: 0.95;
     margin: 0;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
   }
 
   /* ---- Intro paragraphs --------------------------------------------------- */
@@ -204,6 +263,42 @@ const linkingThemes = [
     color: var(--color-text);
   }
   .company-intro p {
+    margin: 0;
+  }
+
+  /* ---- Press quotes ------------------------------------------------------- */
+  .press-quotes {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-8);
+    max-width: 720px;
+    margin: 0 auto;
+    text-align: left;
+  }
+  @media (min-width: 768px) {
+    .press-quotes {
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-6);
+    }
+  }
+  .press-quote {
+    margin: 0;
+    padding: var(--space-5);
+    background-color: var(--color-bg-warm);
+    border-radius: var(--radius-lg);
+  }
+  .press-quote :global(.editorial-quote) {
+    color: var(--color-primary);
+    font-size: var(--text-md);
+    margin: 0 0 var(--space-3);
+  }
+  .press-quote__source {
+    font-family: var(--font-family);
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    color: var(--color-secondary);
+    font-weight: var(--weight-bold);
     margin: 0;
   }
 
