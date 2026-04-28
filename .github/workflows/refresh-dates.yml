@@ -47,6 +47,7 @@ jobs:
         if: steps.cache.outputs.cache-hit != 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
         run: |
           echo "::notice::CSV hash changed — triggering deploy-ftp.yml (mode=root)"
           gh workflow run deploy-ftp.yml -f mode=root --ref main
